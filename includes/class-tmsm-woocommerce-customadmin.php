@@ -76,7 +76,38 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->define_admin_hooks();
 
 		add_action( 'admin_head', array( $this, 'status_badges' ) );
+		add_action( 'login_redirect', array( $this, 'redirect_shop_managers' ) );
 
+	}
+
+	/**
+	 * Shop Managers: redirect to orders
+	 *
+	 * @param $redirect_to
+	 * @param $request
+	 * @param $user
+	 *
+	 * @return string
+	 */
+	function redirect_shop_managers( $redirect_to, $request, $user ) {
+
+		$redirect_to_orders = admin_url( 'edit.php?post_type=shop_order');
+
+		//is there a user to check?
+		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+			//check for admins
+			if ( in_array( 'administrator', $user->roles ) || in_array( 'editor', $user->roles ) || in_array( 'contributor', $user->roles ) || in_array( 'author', $user->roles ) ) {
+				// redirect them to the default place
+				return $redirect_to;
+			} elseif ( in_array( 'shop_manager', $user->roles ) ||  in_array( 'shop_order_manager', $user->roles ) ) {
+				//Redirect shop managers to the orders page
+				return $redirect_to_orders;
+			} else {
+				return home_url();
+			}
+		} else {
+			return $redirect_to;
+		}
 	}
 
 	/**
@@ -84,23 +115,24 @@ class Tmsm_Woocommerce_Customadmin {
 	 */
 	function status_badges() {
 
-		$status_pendingpayment = __('Pending payment', 'tmsm-woocommerce-customadmin');
-		$status_failed = __('Failed', 'tmsm-woocommerce-customadmin');
-		$status_processing = __('Processing', 'tmsm-woocommerce-customadmin');
-		$status_completed = __('Completed', 'tmsm-woocommerce-customadmin');
-		$status_onhold = __('On-Hold', 'woocommerce');
-		$status_cancelled = __('Cancelled', 'woocommerce');
-		$status_refunded = __('Refunded', 'woocommerce');
+		$status_pendingpayment = _x('Pending payment', 'Order status', 'woocommerce' );
+		$status_failed = _x('Failed', 'Order status', 'woocommerce' );
+		$status_processing = _x('Processing', 'Order status', 'woocommerce' );
+		$status_completed = _x('Completed', 'Order status', 'woocommerce' );
+		$status_onhold = _x('On hold', 'Order status', 'woocommerce' );
+		$status_cancelled = _x( 'Cancelled', 'Order status', 'woocommerce' );
+		$status_refunded = _x('Refunded', 'Order status', 'woocommerce' );
 
 		$css = <<<TXT
 <style type="text/css">
  
- .widefat .column-order_status {
+ .wp-list-table .manage-column.column-order_status,
+ .wp-list-table .type-shop_order  .column-order_status {
    width: 80px;
  }
  
  /* General properties for badge */
- .widefat .column-order_status mark {
+ .wp-list-table .type-shop_order  .column-order_status mark {
    font-size: 0.8em;
    border-radius: 3px;
    height: 2em;
@@ -109,13 +141,13 @@ class Tmsm_Woocommerce_Customadmin {
  }
  
  /* Adjust text placement in badge */
- .widefat .column-order_status mark.pending:after,
- .widefat .column-order_status mark.processing:after,
- .widefat .column-order_status mark.on-hold:after,
- .widefat .column-order_status mark.cancelled:after,
- .widefat .column-order_status mark.completed:after,
- .widefat .column-order_status mark.refunded:after,
- .widefat .column-order_status mark.failed:after {
+ .wp-list-table .type-shop_order  .column-order_status mark.pending:after,
+ .wp-list-table .type-shop_order  .column-order_status mark.processing:after,
+ .wp-list-table .type-shop_order  .column-order_status mark.on-hold:after,
+ .wp-list-table .type-shop_order  .column-order_status mark.cancelled:after,
+ .wp-list-table .type-shop_order  .column-order_status mark.completed:after,
+ .wp-list-table .type-shop_order  .column-order_status mark.refunded:after,
+ .wp-list-table .type-shop_order  .column-order_status mark.failed:after {
    padding-top: 0.4em;
    font-weight: bold;
    font-family: inherit;
@@ -123,71 +155,71 @@ class Tmsm_Woocommerce_Customadmin {
  }
  
  /* Pending status */
- .widefat .column-order_status mark.pending {
-   background-color: #999; /* Orange */
+ .wp-list-table .type-shop_order  .column-order_status mark.pending {
+   background-color: #999; /* Gray */
  }
  
- .widefat .column-order_status mark.pending:after {
+ .wp-list-table .type-shop_order  .column-order_status mark.pending:after {
    content: "$status_pendingpayment";
    color: #fff;
  }
  
   /* Processing status */
- .widefat .column-order_status mark.processing {
+ .wp-list-table .type-shop_order  .column-order_status mark.processing {
    background-color: #73a724; /* Green */
  }
  
- .widefat .column-order_status mark.processing:after {
+ .wp-list-table .type-shop_order  .column-order_status mark.processing:after {
    content: "$status_processing";
    color: #ffffff;
  }
  
  /* On-Hold status */
- .widefat .column-order_status mark.on-hold {
+ .wp-list-table .type-shop_order  .column-order_status mark.on-hold {
    background-color: #999; /* Gray */
  }
  
- .widefat .column-order_status mark.on-hold:after {
+ .wp-list-table .type-shop_order  .column-order_status mark.on-hold:after {
    content: "$status_onhold";
    color: #ffffff;
  }
  
  /* Cancelled status */
- .widefat .column-order_status mark.cancelled {
+ .wp-list-table .type-shop_order  .column-order_status mark.cancelled {
    background-color: #a00; /* Red */
  }
  
- .widefat .column-order_status mark.cancelled:after {
+ .wp-list-table .type-shop_order  .column-order_status mark.cancelled:after {
    content: "$status_cancelled";
    color: #ffffff;
  }
  
  /* Completed status */
- .widefat .column-order_status mark.completed {
+ .wp-list-table .type-shop_order  .column-order_status mark.completed {
    background-color: #2ea2cc; /* Blue */
  }
  
- .widefat .column-order_status mark.completed:after {
+ .wp-list-table .type-shop_order  .column-order_status mark.completed:after {
     content: "$status_completed";
     color: #ffffff;
  }
  
  /* Refunded status */
- .widefat .column-order_status mark.refunded {
+ .wp-list-table .type-shop_order  .column-order_status mark.refunded {
    background-color: #000; /* Black */
  }
  
- .widefat .column-order_status mark.refunded:after {
+ .wp-list-table .type-shop_order  .column-order_status mark.refunded:after {
     content: "$status_refunded";
     color: #ffffff;
  }
  
  /* Failed status */
- .widefat .column-order_status mark.failed {
-   background-color: #d0c21f; /* Pink */
+ .wp-list-table .type-shop_order  .column-order_status mark.failed {
+   background-color: #d0c21f; /* Yellow */
  }
  
- .widefat .column-order_status mark.failed:after {
+ .wp-list-table .type-shop_order  .column-order_status mark.failed:after {
     content: "$status_failed";
     color: #ffffff;
  }
@@ -206,7 +238,6 @@ TXT;
 	 * - Tmsm_Woocommerce_Customadmin_Loader. Orchestrates the hooks of the plugin.
 	 * - Tmsm_Woocommerce_Customadmin_i18n. Defines internationalization functionality.
 	 * - Tmsm_Woocommerce_Customadmin_Admin. Defines all hooks for the admin area.
-	 * - Tmsm_Woocommerce_Customadmin_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.

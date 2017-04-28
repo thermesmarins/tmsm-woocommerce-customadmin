@@ -51,6 +51,8 @@ class Tmsm_Woocommerce_Customadmin_Activator {
 
 		// Shop manager role
 		add_role( 'shop_order_manager', __( 'Orders manager', 'tmsm-woocommerce-customadmin' ), array(
+			'level_0'                => true,
+			'level_1'                => true,
 			'read'                   => true,
 		) );
 
