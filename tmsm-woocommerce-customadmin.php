@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       TMSM WooCommerce Custom Admin
  * Plugin URI:        https://github.com/thermesmarins/tmsm-woocommerce-customadmin
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Custom WooCommerce admin area for Thermes Marins de Saint-Malo
  * Version:           1.0.0
  * Author:            Nicolas Mollet
  * Author URI:        https://github.com/nicomollet
@@ -23,6 +23,8 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       tmsm-woocommerce-customadmin
  * Domain Path:       /languages
+ * Github Plugin URI:  https://github.com/thermesmarins/tmsm-woocommerce-customadmin
+ * Github Branch:     master
  */
 
 // If this file is called directly, abort.

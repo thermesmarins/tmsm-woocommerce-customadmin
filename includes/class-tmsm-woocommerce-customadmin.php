@@ -74,8 +74,128 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
-		$this->define_public_hooks();
 
+		add_action( 'admin_head', array( $this, 'status_badges' ) );
+
+	}
+
+	/**
+	 * Status badges
+	 */
+	function status_badges() {
+
+		$status_pendingpayment = __('Pending payment', 'tmsm-woocommerce-customadmin');
+		$status_failed = __('Failed', 'tmsm-woocommerce-customadmin');
+		$status_processing = __('Processing', 'tmsm-woocommerce-customadmin');
+		$status_completed = __('Completed', 'tmsm-woocommerce-customadmin');
+		$status_onhold = __('On-Hold', 'woocommerce');
+		$status_cancelled = __('Cancelled', 'woocommerce');
+		$status_refunded = __('Refunded', 'woocommerce');
+
+		$css = <<<TXT
+<style type="text/css">
+ 
+ .widefat .column-order_status {
+   width: 80px;
+ }
+ 
+ /* General properties for badge */
+ .widefat .column-order_status mark {
+   font-size: 0.8em;
+   border-radius: 3px;
+   height: 2em;
+   width: 6em;
+   margin: 0 10px;
+ }
+ 
+ /* Adjust text placement in badge */
+ .widefat .column-order_status mark.pending:after,
+ .widefat .column-order_status mark.processing:after,
+ .widefat .column-order_status mark.on-hold:after,
+ .widefat .column-order_status mark.cancelled:after,
+ .widefat .column-order_status mark.completed:after,
+ .widefat .column-order_status mark.refunded:after,
+ .widefat .column-order_status mark.failed:after {
+   padding-top: 0.4em;
+   font-weight: bold;
+   font-family: inherit;
+   font-size: 11px;
+ }
+ 
+ /* Pending status */
+ .widefat .column-order_status mark.pending {
+   background-color: #999; /* Orange */
+ }
+ 
+ .widefat .column-order_status mark.pending:after {
+   content: "$status_pendingpayment";
+   color: #fff;
+ }
+ 
+  /* Processing status */
+ .widefat .column-order_status mark.processing {
+   background-color: #73a724; /* Green */
+ }
+ 
+ .widefat .column-order_status mark.processing:after {
+   content: "$status_processing";
+   color: #ffffff;
+ }
+ 
+ /* On-Hold status */
+ .widefat .column-order_status mark.on-hold {
+   background-color: #999; /* Gray */
+ }
+ 
+ .widefat .column-order_status mark.on-hold:after {
+   content: "$status_onhold";
+   color: #ffffff;
+ }
+ 
+ /* Cancelled status */
+ .widefat .column-order_status mark.cancelled {
+   background-color: #a00; /* Red */
+ }
+ 
+ .widefat .column-order_status mark.cancelled:after {
+   content: "$status_cancelled";
+   color: #ffffff;
+ }
+ 
+ /* Completed status */
+ .widefat .column-order_status mark.completed {
+   background-color: #2ea2cc; /* Blue */
+ }
+ 
+ .widefat .column-order_status mark.completed:after {
+    content: "$status_completed";
+    color: #ffffff;
+ }
+ 
+ /* Refunded status */
+ .widefat .column-order_status mark.refunded {
+   background-color: #000; /* Black */
+ }
+ 
+ .widefat .column-order_status mark.refunded:after {
+    content: "$status_refunded";
+    color: #ffffff;
+ }
+ 
+ /* Failed status */
+ .widefat .column-order_status mark.failed {
+   background-color: #d0c21f; /* Pink */
+ }
+ 
+ .widefat .column-order_status mark.failed:after {
+    content: "$status_failed";
+    color: #ffffff;
+ }
+ 
+ </style>
+TXT;
+
+		echo $css;
 	}
 
 	/**
@@ -113,12 +233,6 @@ class Tmsm_Woocommerce_Customadmin {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-tmsm-woocommerce-customadmin-admin.php';
 
-		/**
-		 * The class responsible for defining all actions that occur in the public-facing
-		 * side of the site.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-tmsm-woocommerce-customadmin-public.php';
-
 		$this->loader = new Tmsm_Woocommerce_Customadmin_Loader();
 
 	}
@@ -151,24 +265,8 @@ class Tmsm_Woocommerce_Customadmin {
 
 		$plugin_admin = new Tmsm_Woocommerce_Customadmin_Admin( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-
-	}
-
-	/**
-	 * Register all of the hooks related to the public-facing functionality
-	 * of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function define_public_hooks() {
-
-		$plugin_public = new Tmsm_Woocommerce_Customadmin_Public( $this->get_plugin_name(), $this->get_version() );
-
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		//$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
+		//$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
 	}
 
