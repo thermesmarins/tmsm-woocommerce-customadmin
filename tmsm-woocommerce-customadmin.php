@@ -1,13 +1,5 @@
 <?php
-
 /**
- * The plugin bootstrap file
- *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
- *
  * @link              https://github.com/nicomollet
  * @since             1.0.0
  * @package           Tmsm_Woocommerce_Customadmin
@@ -23,7 +15,7 @@
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       tmsm-woocommerce-customadmin
  * Domain Path:       /languages
- * Github Plugin URI:  https://github.com/thermesmarins/tmsm-woocommerce-customadmin
+ * Github Plugin URI: https://github.com/thermesmarins/tmsm-woocommerce-customadmin
  * Github Branch:     master
  */
 
