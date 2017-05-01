@@ -1,23 +1,23 @@
 <?php
-/**
- * @link              https://github.com/nicomollet
- * @since             1.0.0
- * @package           Tmsm_Woocommerce_Customadmin
- *
- * @wordpress-plugin
- * Plugin Name:       TMSM WooCommerce Custom Admin
- * Plugin URI:        https://github.com/thermesmarins/tmsm-woocommerce-customadmin
- * Description:       Custom WooCommerce admin area for Thermes Marins de Saint-Malo
- * Version:           1.0.0
- * Author:            Nicolas Mollet
- * Author URI:        https://github.com/nicomollet
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       tmsm-woocommerce-customadmin
- * Domain Path:       /languages
- * Github Plugin URI: https://github.com/thermesmarins/tmsm-woocommerce-customadmin
- * Github Branch:     master
- */
+/*
+@link              https://github.com/nicomollet
+@since             1.0.0
+@package           Tmsm_Woocommerce_Customadmin
+@wordpress-plugin
+
+Plugin Name:       TMSM WooCommerce Custom Admin
+Plugin URI:        https://github.com/thermesmarins/tmsm-woocommerce-customadmin
+Description:       Custom WooCommerce admin area for Thermes Marins de Saint-Malo
+Version:           1.0.0
+Author:            Nicolas Mollet
+Author URI:        https://github.com/nicomollet
+License:           GPL-2.0+
+License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+Text Domain:       tmsm-woocommerce-customadmin
+Domain Path:       /languages
+Github Plugin URI: https://github.com/thermesmarins/tmsm-woocommerce-customadmin
+Github Branch:     master
+*/
 
 
 
