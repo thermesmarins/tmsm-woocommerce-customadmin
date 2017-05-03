@@ -20,23 +20,32 @@
  * @subpackage Tmsm_Woocommerce_Customadmin/includes
  * @author     Nicolas Mollet <nico.mollet@gmail.com>
  */
-class Tmsm_Woocommerce_Customadmin_Activator {
+class Tmsm_Woocommerce_Customadmin_Install {
 
 	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
+	 * Activation of the plugin
 	 *
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-
 		self::create_roles();
 
 	}
 
 	/**
+	 * Deactivation of the plugin
+	 *
+	 * @since    1.0.2
+	 */
+	public static function deactivate() {
+		self::remove_roles();
+	}
+
+
+	/**
 	 * Create roles and capabilities.
+	 *
+	 * @since    1.0.0
 	 */
 	public static function create_roles() {
 		global $wp_roles;
@@ -52,7 +61,6 @@ class Tmsm_Woocommerce_Customadmin_Activator {
 		// Shop manager role
 		add_role( 'shop_order_manager', __( 'Orders manager', 'tmsm-woocommerce-customadmin' ), array(
 			'level_0'                => true,
-			'level_1'                => true,
 			'read'                   => true,
 		) );
 
@@ -74,6 +82,7 @@ class Tmsm_Woocommerce_Customadmin_Activator {
 		$capabilities = array();
 
 		$capabilities['core'] = array(
+			'view_admin_dashboard',
 			'view_woocommerce_reports',
 		);
 
@@ -109,7 +118,9 @@ class Tmsm_Woocommerce_Customadmin_Activator {
 	}
 
 	/**
-	 * woocommerce_remove_roles function.
+	 * Remove roles
+	 *
+	 * @since    1.0.2
 	 */
 	public static function remove_roles() {
 		global $wp_roles;

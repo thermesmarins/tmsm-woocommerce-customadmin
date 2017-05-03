@@ -29,3 +29,8 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+// Roles + caps.
+include_once( dirname( __FILE__ ) . '/includes/class-tmsm-woocommerce-customadmin-install.php' );
+
+Tmsm_Woocommerce_Customadmin_Install::remove_roles();

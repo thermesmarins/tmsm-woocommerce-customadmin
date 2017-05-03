@@ -8,7 +8,7 @@
 Plugin Name:       TMSM WooCommerce Custom Admin
 Plugin URI:        https://github.com/thermesmarins/tmsm-woocommerce-customadmin
 Description:       Custom WooCommerce admin area for Thermes Marins de Saint-Malo
-Version:           1.0.1
+Version:           1.0.2
 Author:            Nicolas Mollet
 Author URI:        https://github.com/nicomollet
 License:           GPL-2.0+
@@ -19,8 +19,6 @@ Github Plugin URI: https://github.com/thermesmarins/tmsm-woocommerce-customadmin
 Github Branch:     master
 */
 
-
-
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -28,20 +26,20 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * The code that runs during plugin activation.
- * This action is documented in includes/class-tmsm-woocommerce-customadmin-activator.php
+ * This action is documented in includes/class-tmsm-woocommerce-customadmin-install.php
  */
 function activate_tmsm_woocommerce_customadmin() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-tmsm-woocommerce-customadmin-activator.php';
-	Tmsm_Woocommerce_Customadmin_Activator::activate();
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-tmsm-woocommerce-customadmin-install.php';
+	Tmsm_Woocommerce_Customadmin_Install::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented in includes/class-tmsm-woocommerce-customadmin-deactivator.php
+ * This action is documented in includes/class-tmsm-woocommerce-customadmin-install.php
  */
 function deactivate_tmsm_woocommerce_customadmin() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-tmsm-woocommerce-customadmin-deactivator.php';
-	Tmsm_Woocommerce_Customadmin_Deactivator::deactivate();
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-tmsm-woocommerce-customadmin-install.php';
+	Tmsm_Woocommerce_Customadmin_Install::deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_tmsm_woocommerce_customadmin' );
