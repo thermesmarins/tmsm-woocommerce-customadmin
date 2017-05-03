@@ -69,14 +69,14 @@ class Tmsm_Woocommerce_Customadmin {
 	public function __construct() {
 
 		$this->plugin_name = 'tmsm-woocommerce-customadmin';
-		$this->version = '1.0.0';
+		$this->version = '1.0.1';
 
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
 
 		add_action( 'admin_head', array( $this, 'status_badges' ) );
-		add_action( 'login_redirect', array( $this, 'redirect_shop_managers' ) );
+		add_action( 'login_redirect', array( $this, 'redirect_shop_managers' ), 10, 3 );
 
 	}
 
