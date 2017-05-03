@@ -76,8 +76,52 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->define_admin_hooks();
 
 		add_action( 'admin_head', array( $this, 'status_badges' ) );
+		add_action( 'admin_head', array( $this, 'menu_icons' ) );
+		add_action( 'admin_menu', array( $this, 'menu_icons' ) );
+		//add_action( 'admin_menu', array( $this, 'rename_menu' ), 999 );
 		add_action( 'login_redirect', array( $this, 'redirect_shop_managers' ), 10, 3 );
 
+	}
+
+	/**
+	 * Rename WooCommerce menu to Orders
+	 */
+	function rename_menu()
+	{
+		global $menu;
+		// Pinpoint menu item
+		$woo = self::recursive_array_search( 'WooCommerce', $menu );
+		// Validate
+		if( !$woo )
+			return;
+		$menu[$woo][0] = __('Orders', 'woocommerce');
+	}
+
+	/**
+	 * Recursive array search
+	 *
+	 * @param $needle
+	 * @param $haystack
+	 *
+	 * @return bool|int|string
+	 */
+	public static function recursive_array_search( $needle, $haystack )
+	{
+		foreach( $haystack as $key => $value )
+		{
+			$current_key = $key;
+			if(
+				$needle === $value
+				OR (
+					is_array( $value )
+					&& recursive_array_search( $needle, $value ) !== false
+				)
+			)
+			{
+				return $current_key;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -108,6 +152,20 @@ class Tmsm_Woocommerce_Customadmin {
 		} else {
 			return $redirect_to;
 		}
+	}
+
+
+	/**
+	 * Menus icons
+	 */
+	function menu_icons(){
+		echo '<style type="text/css">';
+		echo '#adminmenu #toplevel_page_woocommerce .menu-icon-generic div.wp-menu-image:before{content: "\f174" !important;font-family: "dashicons" !important;}';
+		echo '#adminmenu #menu-posts-shop_order     .menu-icon-shop_order div.wp-menu-image:before{content: "\f174" !important;font-family: "dashicons" !important;}';
+		echo '#adminmenu #menu-posts-shop_coupon    .menu-icon-shop_coupon div.wp-menu-image:before{content: "\f524" !important;font-family: "dashicons" !important;}';
+		echo '#adminmenu #menu-posts-product        .menu-icon-product div.wp-menu-image:before{content: "\f312" !important;font-family: "dashicons" !important;}';
+		echo '#adminmenu #toplevel_page_wc-reports  .menu-icon-generic div.wp-menu-image:before{content: "\f239" !important;font-family: "dashicons" !important; font-size: 20px !important;;}';
+		echo '</style>';
 	}
 
 	/**
