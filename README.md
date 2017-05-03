@@ -9,5 +9,6 @@ Features
 * Status Badges as text instead of icons
 * Renamed menus
 * Redirect login
+* Better menus icons
 
 
