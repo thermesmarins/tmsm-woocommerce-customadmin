@@ -79,7 +79,7 @@ class Tmsm_Woocommerce_Customadmin {
 		add_action( 'admin_head', array( $this, 'menu_icons' ) );
 		add_action( 'admin_menu', array( $this, 'menu_icons' ) );
 		add_action( 'admin_menu', array( $this, 'rename_menu' ), 999 );
-		add_action( 'login_redirect', array( $this, 'redirect_shop_managers' ), 10, 3 );
+		add_action( 'login_redirect', array( $this, 'redirect_shop_managers' ), 100, 3 );
 
 	}
 
