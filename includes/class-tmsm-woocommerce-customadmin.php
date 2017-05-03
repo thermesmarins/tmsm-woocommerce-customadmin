@@ -69,7 +69,7 @@ class Tmsm_Woocommerce_Customadmin {
 	public function __construct() {
 
 		$this->plugin_name = 'tmsm-woocommerce-customadmin';
-		$this->version = '1.0.2';
+		$this->version = '1.0.3';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -112,9 +112,9 @@ class Tmsm_Woocommerce_Customadmin {
 			$current_key = $key;
 			if(
 				$needle === $value
-				OR (
+				|| (
 					is_array( $value )
-					&& recursive_array_search( $needle, $value ) !== false
+					&& self::recursive_array_search( $needle, $value ) !== false
 				)
 			)
 			{
