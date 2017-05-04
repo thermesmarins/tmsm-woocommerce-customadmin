@@ -77,7 +77,6 @@ class Tmsm_Woocommerce_Customadmin {
 
 		add_action( 'admin_head', array( $this, 'status_badges' ) );
 		add_action( 'admin_head', array( $this, 'menu_icons' ) );
-		add_action( 'admin_menu', array( $this, 'menu_icons' ) );
 		add_action( 'admin_menu', array( $this, 'rename_menu' ), 999 );
 		add_action( 'admin_menu', array( $this, 'menu_customers' ), 999 );
 		add_action( 'login_redirect', array( $this, 'redirect_shop_managers' ), 100, 3 );
@@ -86,6 +85,38 @@ class Tmsm_Woocommerce_Customadmin {
 		add_action( 'manage_users_custom_column', array( $this, 'users_custom_column' ), 10, 3 );
 		add_filter( 'manage_users_sortable_columns', array( $this, 'users_sortable_columns' ) );
 
+		
+		add_filter( 'woocommerce_checkout_get_value', array( $this, 'checkout_default_values' ), 10, 2 );
+
+	}
+
+	/**
+	 * Default checkout values
+	 *
+	 * @param $input
+	 * @param $key
+	 *
+	 * @return string
+	 */
+	function checkout_default_values($input, $key ) {
+		global $current_user;
+		switch ($key) :
+			case 'billing_first_name':
+			case 'shipping_first_name':
+				return $current_user->first_name;
+				break;
+
+			case 'billing_last_name':
+			case 'shipping_last_name':
+				return $current_user->last_name;
+				break;
+			case 'billing_email':
+				return $current_user->user_email;
+				break;
+			case 'billing_phone':
+				return $current_user->phone;
+				break;
+		endswitch;
 	}
 
 	/**
