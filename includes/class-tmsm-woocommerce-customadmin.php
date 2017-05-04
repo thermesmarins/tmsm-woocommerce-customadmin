@@ -85,9 +85,7 @@ class Tmsm_Woocommerce_Customadmin {
 		add_action( 'manage_users_custom_column', array( $this, 'users_custom_column' ), 10, 3 );
 		add_filter( 'manage_users_sortable_columns', array( $this, 'users_sortable_columns' ) );
 
-		
 		add_filter( 'woocommerce_checkout_get_value', array( $this, 'checkout_default_values' ), 10, 2 );
-
 	}
 
 	/**
