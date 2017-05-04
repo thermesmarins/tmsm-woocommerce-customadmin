@@ -1,8 +1,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: StormBringer Wordpress theme\n"
-"POT-Creation-Date: 2017-04-28 17:05+0200\n"
+"Project-Id-Version: TMSM WooCommerce Custom Admin\n"
+"POT-Creation-Date: 2017-05-04 08:42+0200\n"
 "PO-Revision-Date: 2014-10-24 21:08+0100\n"
 "Last-Translator: Nicolas Mollet <nico.mollet@gmail.com>\n"
 "Language-Team: Nicolas Mollet <nico.mollet@gmail.com>\n"
@@ -18,41 +18,54 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../includes/class-tmsm-woocommerce-customadmin-activator.php:53
+#: ../includes/class-tmsm-woocommerce-customadmin-install.php:62
 msgid "Orders manager"
 msgstr ""
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:118
+#: ../includes/class-tmsm-woocommerce-customadmin.php:100
+#: ../includes/class-tmsm-woocommerce-customadmin.php:101
+msgid "Customers"
+msgstr ""
+
+#: ../includes/class-tmsm-woocommerce-customadmin.php:113
+msgid "Registered"
+msgstr ""
+
+#: ../includes/class-tmsm-woocommerce-customadmin.php:177
+msgid "Orders"
+msgstr ""
+
+#: ../includes/class-tmsm-woocommerce-customadmin.php:256
 msgctxt "Order status"
 msgid "Pending payment"
 msgstr ""
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:119
+#: ../includes/class-tmsm-woocommerce-customadmin.php:257
 msgctxt "Order status"
 msgid "Failed"
 msgstr ""
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:120
+#: ../includes/class-tmsm-woocommerce-customadmin.php:258
 msgctxt "Order status"
 msgid "Processing"
 msgstr ""
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:121
+#: ../includes/class-tmsm-woocommerce-customadmin.php:259
 msgctxt "Order status"
 msgid "Completed"
 msgstr ""
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:122
+#: ../includes/class-tmsm-woocommerce-customadmin.php:260
 msgctxt "Order status"
 msgid "On hold"
 msgstr ""
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:123
+#: ../includes/class-tmsm-woocommerce-customadmin.php:261
 msgctxt "Order status"
 msgid "Cancelled"
 msgstr ""
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:124
+#: ../includes/class-tmsm-woocommerce-customadmin.php:262
 msgctxt "Order status"
 msgid "Refunded"
 msgstr ""

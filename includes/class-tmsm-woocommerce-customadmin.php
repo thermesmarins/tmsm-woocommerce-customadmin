@@ -35,7 +35,7 @@ class Tmsm_Woocommerce_Customadmin {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      Tmsm_Woocommerce_Customadmin_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Tmsm_Woocommerce_Customadmin_Loader $loader Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -44,7 +44,7 @@ class Tmsm_Woocommerce_Customadmin {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+	 * @var      string $plugin_name The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
 
@@ -53,7 +53,7 @@ class Tmsm_Woocommerce_Customadmin {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
+	 * @var      string $version The current version of the plugin.
 	 */
 	protected $version;
 
@@ -69,7 +69,7 @@ class Tmsm_Woocommerce_Customadmin {
 	public function __construct() {
 
 		$this->plugin_name = 'tmsm-woocommerce-customadmin';
-		$this->version = '1.0.3';
+		$this->version     = '1.0.4';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -79,22 +79,102 @@ class Tmsm_Woocommerce_Customadmin {
 		add_action( 'admin_head', array( $this, 'menu_icons' ) );
 		add_action( 'admin_menu', array( $this, 'menu_icons' ) );
 		add_action( 'admin_menu', array( $this, 'rename_menu' ), 999 );
+		add_action( 'admin_menu', array( $this, 'menu_customers' ), 999 );
 		add_action( 'login_redirect', array( $this, 'redirect_shop_managers' ), 100, 3 );
+
+		add_filter( 'manage_users_columns', array( $this, 'users_columns' ) );
+		add_action( 'manage_users_custom_column', array( $this, 'users_custom_column' ), 10, 3 );
+		add_filter( 'manage_users_sortable_columns', array( $this, 'users_sortable_columns' ) );
 
 	}
 
 	/**
+	 * Customers menu item
+	 *
+	 * @since  1.0.4
+	 * @access public
+	 */
+	public static function menu_customers( ) {
+		add_submenu_page(
+			'woocommerce',
+			__( 'Customers', 'woocommerce' ),
+			__( 'Customers', 'woocommerce' ),
+			'list_users',
+			'users.php?role=customer&orderby=id&order=desc'
+		);
+	}
+	/**
+	 * Registered column for display
+	 *
+	 * @since  1.0.4
+	 * @access public
+	 */
+	public static function users_columns( $columns ) {
+		$columns['registered'] = __( 'Registered', 'tmsm-woocommerce-customadmin' );
+
+		return $columns;
+	}
+
+	/**
+	 * Handles the registered date column output.
+	 *
+	 * This uses the same code as column_registered, which is why
+	 * the date isn't filterable.
+	 *
+	 * @since  1.0.4
+	 * @access public
+	 *
+	 * @global string $mode
+	 */
+	public static function users_custom_column( $value, $column_name, $user_id ) {
+
+		global $mode;
+		$mode = empty( $_REQUEST['mode'] ) ? 'list' : $_REQUEST['mode'];
+
+		if ( 'registered' != $column_name ) {
+			return $value;
+		} else {
+			$user = get_userdata( $user_id );
+
+			if ( is_multisite() && ( 'list' == $mode ) ) {
+				$formated_date = 'Y/m/d';
+			} else {
+				$formated_date = 'Y/m/d g:i:s a';
+			}
+
+			$registerdate = mysql2date($formated_date, $user->registered );
+			return $registerdate;
+		}
+	}
+
+	/**
+	 * Makes the column sortable
+	 *
+	 * @since  1.0.4
+	 * @access public
+	 */
+	public static function users_sortable_columns( $columns ) {
+		$custom = array(
+			// meta column id => sortby value used in query
+			'registered' => 'id',
+		);
+
+		return wp_parse_args( $custom, $columns );
+	}
+
+
+	/**
 	 * Rename WooCommerce menu to Orders
 	 */
-	function rename_menu()
-	{
+	function rename_menu() {
 		global $menu;
 		// Pinpoint menu item
 		$woo = self::recursive_array_search( 'WooCommerce', $menu );
 		// Validate
-		if( !$woo )
+		if ( ! $woo ) {
 			return;
-		$menu[$woo][0] = __('Orders', 'woocommerce');
+		}
+		$menu[ $woo ][0] = __( 'Orders', 'woocommerce' );
 	}
 
 	/**
@@ -105,22 +185,20 @@ class Tmsm_Woocommerce_Customadmin {
 	 *
 	 * @return bool|int|string
 	 */
-	public static function recursive_array_search( $needle, $haystack )
-	{
-		foreach( $haystack as $key => $value )
-		{
+	public static function recursive_array_search( $needle, $haystack ) {
+		foreach ( $haystack as $key => $value ) {
 			$current_key = $key;
-			if(
+			if (
 				$needle === $value
 				|| (
 					is_array( $value )
 					&& self::recursive_array_search( $needle, $value ) !== false
 				)
-			)
-			{
+			) {
 				return $current_key;
 			}
 		}
+
 		return false;
 	}
 
@@ -135,15 +213,17 @@ class Tmsm_Woocommerce_Customadmin {
 	 */
 	function redirect_shop_managers( $redirect_to, $request, $user ) {
 
-		$redirect_to_orders = admin_url( 'edit.php?post_type=shop_order');
+		$redirect_to_orders = admin_url( 'edit.php?post_type=shop_order' );
 
 		//is there a user to check?
 		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
 			//check for admins
-			if ( in_array( 'administrator', $user->roles ) || in_array( 'editor', $user->roles ) || in_array( 'contributor', $user->roles ) || in_array( 'author', $user->roles ) ) {
+			if ( in_array( 'administrator', $user->roles ) || in_array( 'editor', $user->roles ) || in_array( 'contributor', $user->roles )
+			     || in_array( 'author', $user->roles )
+			) {
 				// redirect them to the default place
 				return $redirect_to;
-			} elseif ( in_array( 'shop_manager', $user->roles ) ||  in_array( 'shop_order_manager', $user->roles ) ) {
+			} elseif ( in_array( 'shop_manager', $user->roles ) || in_array( 'shop_order_manager', $user->roles ) ) {
 				//Redirect shop managers to the orders page
 				return $redirect_to_orders;
 			} else {
@@ -158,7 +238,7 @@ class Tmsm_Woocommerce_Customadmin {
 	/**
 	 * Menus icons
 	 */
-	function menu_icons(){
+	function menu_icons() {
 		echo '<style type="text/css">';
 		echo '#adminmenu #toplevel_page_woocommerce .menu-icon-generic div.wp-menu-image:before{content: "\f174" !important;font-family: "dashicons" !important;}';
 		echo '#adminmenu #menu-posts-shop_order     .menu-icon-shop_order div.wp-menu-image:before{content: "\f174" !important;font-family: "dashicons" !important;}';
@@ -173,15 +253,16 @@ class Tmsm_Woocommerce_Customadmin {
 	 */
 	function status_badges() {
 
-		$status_pendingpayment = _x('Pending payment', 'Order status', 'woocommerce' );
-		$status_failed = _x('Failed', 'Order status', 'woocommerce' );
-		$status_processing = _x('Processing', 'Order status', 'woocommerce' );
-		$status_completed = _x('Completed', 'Order status', 'woocommerce' );
-		$status_onhold = _x('On hold', 'Order status', 'woocommerce' );
-		$status_cancelled = _x( 'Cancelled', 'Order status', 'woocommerce' );
-		$status_refunded = _x('Refunded', 'Order status', 'woocommerce' );
+		$status_pendingpayment = _x( 'Pending payment', 'Order status', 'woocommerce' );
+		$status_failed         = _x( 'Failed', 'Order status', 'woocommerce' );
+		$status_processing     = _x( 'Processing', 'Order status', 'woocommerce' );
+		$status_completed      = _x( 'Completed', 'Order status', 'woocommerce' );
+		$status_onhold         = _x( 'On hold', 'Order status', 'woocommerce' );
+		$status_cancelled      = _x( 'Cancelled', 'Order status', 'woocommerce' );
+		$status_refunded       = _x( 'Refunded', 'Order status', 'woocommerce' );
 
-		$css = <<<TXT
+		$css
+			= <<<TXT
 <style type="text/css">
  
  .wp-list-table .manage-column.column-order_status,
