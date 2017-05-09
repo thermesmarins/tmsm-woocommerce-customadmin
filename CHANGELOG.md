@@ -1,3 +1,6 @@
+### 1.0.5: May 9th, 2017
+* Add link to export orders in Orders menu
+
 ### 1.0.4: May 4th, 2017
 * New "registered date" column to Users List
 * New "Customers" menu item in "Orders" 

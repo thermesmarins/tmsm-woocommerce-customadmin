@@ -84,6 +84,7 @@ class Tmsm_Woocommerce_Customadmin_Install {
 		$capabilities['core'] = array(
 			'view_admin_dashboard',
 			'view_woocommerce_reports',
+			'export',
 		);
 
 		$capability_types = array( 'product', 'shop_order', 'shop_coupon', 'shop_webhook' );

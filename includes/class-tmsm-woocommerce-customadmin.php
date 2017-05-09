@@ -69,7 +69,7 @@ class Tmsm_Woocommerce_Customadmin {
 	public function __construct() {
 
 		$this->plugin_name = 'tmsm-woocommerce-customadmin';
-		$this->version     = '1.0.4';
+		$this->version     = '1.0.5';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -77,8 +77,12 @@ class Tmsm_Woocommerce_Customadmin {
 
 		add_action( 'admin_head', array( $this, 'status_badges' ) );
 		add_action( 'admin_head', array( $this, 'menu_icons' ) );
+		add_action( 'admin_head', array( $this, 'hide_woocommerce' ) );
+
 		add_action( 'admin_menu', array( $this, 'rename_menu' ), 999 );
 		add_action( 'admin_menu', array( $this, 'menu_customers' ), 999 );
+		add_action( 'admin_menu', array( $this, 'order_export' ), 999 );
+
 		add_action( 'login_redirect', array( $this, 'redirect_shop_managers' ), 100, 3 );
 
 		add_filter( 'manage_users_columns', array( $this, 'users_columns' ) );
@@ -132,6 +136,46 @@ class Tmsm_Woocommerce_Customadmin {
 			'users.php?role=customer&orderby=id&order=desc'
 		);
 	}
+
+
+	/**
+	 * Hide WooCommerce menu for shop_order_manager
+	 *
+	 * @since  1.0.4
+	 * @access public
+	 */
+	function hide_woocommerce() {
+		$roles = wp_get_current_user()->roles;
+		if(is_array($roles) && isset($roles[0]) && $roles[0] == 'shop_order_manager'):
+			echo '<style type="text/css">';
+			echo '#adminmenu #toplevel_page_woocommerce {display: none !important;}';
+			echo '</style>';
+		endif;
+	}
+
+	/**
+	 * Reports menu for Advanced Order Export For WooCommerce
+	 *
+	 * @since  1.0.4
+	 * @access public
+	 */
+	public static function order_export( ) {
+
+		if(class_exists('WC_Order_Export_Admin')):
+			add_submenu_page(
+				'edit.php?post_type=shop_order',
+				__( 'Export Orders', 'woocommerce-order-export' ),
+				__( 'Export Orders', 'woocommerce-order-export' ),
+				'view_woocommerce_reports',
+				'admin.php?page=wc-order-export'
+
+			);
+		endif;
+
+
+
+	}
+
 	/**
 	 * Registered column for display
 	 *

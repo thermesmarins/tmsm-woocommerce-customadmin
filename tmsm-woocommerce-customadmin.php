@@ -8,7 +8,7 @@
 Plugin Name:       TMSM WooCommerce Custom Admin
 Plugin URI:        https://github.com/thermesmarins/tmsm-woocommerce-customadmin
 Description:       Custom WooCommerce admin area for Thermes Marins de Saint-Malo
-Version:           1.0.4
+Version:           1.0.5
 Author:            Nicolas Mollet
 Author URI:        https://github.com/nicomollet
 License:           GPL-2.0+
