@@ -204,18 +204,18 @@ class Tmsm_Woocommerce_Customadmin {
 		global $mode;
 		$mode = empty( $_REQUEST['mode'] ) ? 'list' : $_REQUEST['mode'];
 
+
 		if ( 'registered' != $column_name ) {
 			return $value;
 		} else {
 			$user = get_userdata( $user_id );
 
 			if ( is_multisite() && ( 'list' == $mode ) ) {
-				$formated_date = 'Y/m/d';
+				$formated_date = __('Y/m/d', 'tmsm-woocommerce-customadmin');
 			} else {
-				$formated_date = 'Y/m/d g:i:s a';
+				$formated_date = __('Y/m/d g:i:s a', 'tmsm-woocommerce-customadmin');
 			}
-
-			$registerdate = mysql2date($formated_date, $user->registered );
+			$registerdate = mysql2date($formated_date, $user->user_registered );
 			return $registerdate;
 		}
 	}
