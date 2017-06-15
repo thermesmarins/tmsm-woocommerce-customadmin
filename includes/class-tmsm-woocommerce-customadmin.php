@@ -90,6 +90,49 @@ class Tmsm_Woocommerce_Customadmin {
 		add_filter( 'manage_users_sortable_columns', array( $this, 'users_sortable_columns' ) );
 
 		add_filter( 'woocommerce_checkout_get_value', array( $this, 'checkout_default_values' ), 10, 2 );
+
+
+		// WooCommerce PDF Vouchers
+		add_filter( 'woo_vou_recipient_giftdate_format', array( $this, 'woo_vou_recipient_giftdate_format' ), 10, 2 );
+		add_filter( 'woo_vou_get_cart_date_format', array( $this, 'woo_vou_get_cart_date_format' ), 10, 2 );
+	}
+
+
+	/**
+	 * WooCommerce PDF Vouchers: gift datepicker format
+	 *
+	 * @param $date_format
+	 *
+	 * @return string
+	 *
+	 */
+	function woo_vou_recipient_giftdate_format ( $date_format ) {
+		return 'dd-mm-yy';
+	}
+
+	/**
+	 * WooCommerce PDF Vouchers: gift date format in cart
+	 *
+	 * @param $date
+	 *
+	 * @return string
+	 */
+	function woo_vou_get_cart_date_format ( $date ) {
+
+		if (strpos($date, '-')) {
+
+			// Explode $date to get date, month and year parameters
+			$date_arr = explode('-', $date);
+
+			$dateObj = DateTime::createFromFormat('!M', $date_arr[1]); // Check month for string format
+			if(!empty($dateObj)){
+				$date_arr[1] = $dateObj->format('m');
+				$date = implode('-', $date_arr);
+			}
+
+		}
+
+		return $date;
 	}
 
 	/**
