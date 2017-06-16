@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: StormBringer Wordpress theme\n"
-"POT-Creation-Date: 2017-05-04 08:41+0200\n"
-"PO-Revision-Date: 2017-05-04 08:46+0200\n"
+"POT-Creation-Date: 2017-06-16 13:34+0200\n"
+"PO-Revision-Date: 2017-06-16 13:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: Nicolas Mollet <nico.mollet@gmail.com>\n"
 "Language: fr\n"
@@ -18,56 +18,66 @@ msgstr ""
 "X-Poedit-SearchPath-1: ..\n"
 
 #: ../includes/class-tmsm-woocommerce-customadmin-install.php:62
-msgid "Orders manager"
+msgid "Orders Manager"
 msgstr "Gestionnaire commandes"
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:100
-#: ../includes/class-tmsm-woocommerce-customadmin.php:101
+#: ../includes/class-tmsm-woocommerce-customadmin.php:175
+#: ../includes/class-tmsm-woocommerce-customadmin.php:176
 msgid "Customers"
 msgstr "Clients"
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:113
+#: ../includes/class-tmsm-woocommerce-customadmin.php:209
+#: ../includes/class-tmsm-woocommerce-customadmin.php:210
+msgid "Export Orders"
+msgstr "Exporter Commandes"
+
+#: ../includes/class-tmsm-woocommerce-customadmin.php:228
 msgid "Registered"
 msgstr "Inscription"
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:177
+#: ../includes/class-tmsm-woocommerce-customadmin.php:256
+msgid "Y/m/d"
+msgstr "Y/m/d"
+
+#: ../includes/class-tmsm-woocommerce-customadmin.php:258
+msgid "Y/m/d g:i:s a"
+msgstr ""
+
+#: ../includes/class-tmsm-woocommerce-customadmin.php:292
 msgid "Orders"
 msgstr "Commandes"
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:256
+#: ../includes/class-tmsm-woocommerce-customadmin.php:371
 msgctxt "Order status"
 msgid "Pending payment"
 msgstr "Attente paiement"
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:257
+#: ../includes/class-tmsm-woocommerce-customadmin.php:372
 msgctxt "Order status"
 msgid "Failed"
 msgstr "Échoué"
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:258
+#: ../includes/class-tmsm-woocommerce-customadmin.php:373
 msgctxt "Order status"
 msgid "Processing"
 msgstr "En cours"
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:259
+#: ../includes/class-tmsm-woocommerce-customadmin.php:374
 msgctxt "Order status"
 msgid "Completed"
 msgstr "Terminé"
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:260
+#: ../includes/class-tmsm-woocommerce-customadmin.php:375
 msgctxt "Order status"
 msgid "On hold"
 msgstr "En attente"
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:261
+#: ../includes/class-tmsm-woocommerce-customadmin.php:376
 msgctxt "Order status"
 msgid "Cancelled"
 msgstr "Annulé"
 
-#: ../includes/class-tmsm-woocommerce-customadmin.php:262
+#: ../includes/class-tmsm-woocommerce-customadmin.php:377
 msgctxt "Order status"
 msgid "Refunded"
 msgstr "Remboursé"
-
-#~ msgid "Y/m/d"
-#~ msgstr "Y/m/d"
