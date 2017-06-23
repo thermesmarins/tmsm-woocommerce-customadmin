@@ -69,7 +69,7 @@ class Tmsm_Woocommerce_Customadmin {
 	public function __construct() {
 
 		$this->plugin_name = 'tmsm-woocommerce-customadmin';
-		$this->version     = '1.0.5';
+		$this->version     = '1.0.6';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -105,7 +105,7 @@ class Tmsm_Woocommerce_Customadmin {
 	 * @return string
 	 *
 	 */
-	function woo_vou_recipient_giftdate_format ( $date_format ) {
+	function woo_vou_recipient_giftdate_format( $date_format ) {
 		return 'dd-mm-yy';
 	}
 
@@ -116,17 +116,17 @@ class Tmsm_Woocommerce_Customadmin {
 	 *
 	 * @return string
 	 */
-	function woo_vou_get_cart_date_format ( $date ) {
+	function woo_vou_get_cart_date_format( $date ) {
 
-		if (strpos($date, '-')) {
+		if ( strpos( $date, '-' ) ) {
 
 			// Explode $date to get date, month and year parameters
-			$date_arr = explode('-', $date);
+			$date_arr = explode( '-', $date );
 
-			$dateObj = DateTime::createFromFormat('!M', $date_arr[1]); // Check month for string format
-			if(!empty($dateObj)){
-				$date_arr[1] = $dateObj->format('m');
-				$date = implode('-', $date_arr);
+			$dateObj = DateTime::createFromFormat( '!M', $date_arr[1] ); // Check month for string format
+			if ( ! empty( $dateObj ) ) {
+				$date_arr[1] = $dateObj->format( 'm' );
+				$date        = implode( '-', $date_arr );
 			}
 
 		}
@@ -142,9 +142,9 @@ class Tmsm_Woocommerce_Customadmin {
 	 *
 	 * @return string
 	 */
-	function checkout_default_values($input, $key ) {
+	function checkout_default_values( $input, $key ) {
 		global $current_user;
-		switch ($key) :
+		switch ( $key ) :
 			case 'billing_first_name':
 			case 'shipping_first_name':
 				return $current_user->first_name;
@@ -169,7 +169,7 @@ class Tmsm_Woocommerce_Customadmin {
 	 * @since  1.0.4
 	 * @access public
 	 */
-	public static function menu_customers( ) {
+	public static function menu_customers() {
 		add_submenu_page(
 			'woocommerce',
 			__( 'Customers', 'woocommerce' ),
@@ -188,7 +188,7 @@ class Tmsm_Woocommerce_Customadmin {
 	 */
 	function hide_woocommerce() {
 		$roles = wp_get_current_user()->roles;
-		if(is_array($roles) && isset($roles[0]) && $roles[0] == 'shop_order_manager'):
+		if ( is_array( $roles ) && isset( $roles[0] ) && $roles[0] == 'shop_order_manager' ):
 			echo '<style type="text/css">';
 			echo '#adminmenu #toplevel_page_woocommerce {display: none !important;}';
 			echo '</style>';
@@ -201,9 +201,9 @@ class Tmsm_Woocommerce_Customadmin {
 	 * @since  1.0.4
 	 * @access public
 	 */
-	public static function order_export( ) {
+	public static function order_export() {
 
-		if(class_exists('WC_Order_Export_Admin')):
+		if ( class_exists( 'WC_Order_Export_Admin' ) ):
 			add_submenu_page(
 				'edit.php?post_type=shop_order',
 				__( 'Export Orders', 'woocommerce-order-export' ),
@@ -213,7 +213,6 @@ class Tmsm_Woocommerce_Customadmin {
 
 			);
 		endif;
-
 
 
 	}
@@ -253,11 +252,12 @@ class Tmsm_Woocommerce_Customadmin {
 			$user = get_userdata( $user_id );
 
 			if ( is_multisite() && ( 'list' == $mode ) ) {
-				$formated_date = __('Y/m/d', 'tmsm-woocommerce-customadmin');
+				$formated_date = __( 'Y/m/d', 'tmsm-woocommerce-customadmin' );
 			} else {
-				$formated_date = __('Y/m/d g:i:s a', 'tmsm-woocommerce-customadmin');
+				$formated_date = __( 'Y/m/d g:i:s a', 'tmsm-woocommerce-customadmin' );
 			}
-			$registerdate = mysql2date($formated_date, $user->user_registered );
+			$registerdate = mysql2date( $formated_date, $user->user_registered );
+
 			return $registerdate;
 		}
 	}
@@ -332,19 +332,20 @@ class Tmsm_Woocommerce_Customadmin {
 
 		//is there a user to check?
 		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-			//check for admins
+			// Default redirect for admins
 			if ( in_array( 'administrator', $user->roles ) || in_array( 'editor', $user->roles ) || in_array( 'contributor', $user->roles )
 			     || in_array( 'author', $user->roles )
 			) {
-				// redirect them to the default place
 				return $redirect_to;
 			} elseif ( in_array( 'shop_manager', $user->roles ) || in_array( 'shop_order_manager', $user->roles ) ) {
-				//Redirect shop managers to the orders page
+				// Redirect shop_manager and shop_order_manager to the orders page
 				return $redirect_to_orders;
 			} else {
-				return home_url();
+				// Default redirect for other roles
+				return $redirect_to;
 			}
 		} else {
+			// Default redirect for no role
 			return $redirect_to;
 		}
 	}

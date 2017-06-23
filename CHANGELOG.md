@@ -1,3 +1,6 @@
+### 1.0.6: June 23th, 2017
+* Fix redirect for other roles
+
 ### 1.0.5: May 9th, 2017
 * Add link to export orders in Orders menu
 
