@@ -157,9 +157,6 @@ class Tmsm_Woocommerce_Customadmin {
 			case 'billing_email':
 				return $current_user->user_email;
 				break;
-			case 'billing_phone':
-				return $current_user->phone;
-				break;
 		endswitch;
 	}
 
