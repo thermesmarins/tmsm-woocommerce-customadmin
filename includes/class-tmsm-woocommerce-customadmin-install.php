@@ -87,7 +87,7 @@ class Tmsm_Woocommerce_Customadmin_Install {
 			'export',
 		);
 
-		$capability_types = array( 'product', 'shop_order', 'shop_coupon', 'shop_webhook' );
+		$capability_types = array( 'shop_order', 'shop_coupon', 'shop_webhook' );
 
 		foreach ( $capability_types as $capability_type ) {
 
