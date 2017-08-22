@@ -100,4 +100,15 @@ class Tmsm_Woocommerce_Customadmin_Admin {
 
 	}
 
+
+	/**
+	 * Remove tour guide
+	 *
+	 * @since 1.0.7
+	 *
+	 * @return bool
+	 */
+	public function woocommerce_enable_admin_help_tab(){
+		return false;
+	}
 }

@@ -1,3 +1,7 @@
+### 1.0.7: ?
+* Remove tour guide
+
+
 ### 1.0.6: June 23th, 2017
 * Fix redirect for other roles
 

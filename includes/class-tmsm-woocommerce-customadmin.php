@@ -98,6 +98,23 @@ class Tmsm_Woocommerce_Customadmin {
 
 
 	/**
+	 * Register all of the hooks related to the admin area functionality
+	 * of the plugin.
+	 *
+	 * @since    1.0.7
+	 *
+	 * @access   private
+	 */
+	private function define_admin_hooks() {
+
+		$plugin_admin = new Tmsm_Woocommerce_Customadmin_Admin( $this->get_plugin_name(), $this->get_version() );
+
+		$this->loader->add_filter( 'woocommerce_enable_admin_help_tab', $plugin_admin, 'woocommerce_enable_admin_help_tab' );
+
+	}
+
+
+	/**
 	 * WooCommerce PDF Vouchers: gift datepicker format
 	 *
 	 * @param $date_format
@@ -537,21 +554,6 @@ TXT;
 
 	}
 
-	/**
-	 * Register all of the hooks related to the admin area functionality
-	 * of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function define_admin_hooks() {
-
-		$plugin_admin = new Tmsm_Woocommerce_Customadmin_Admin( $this->get_plugin_name(), $this->get_version() );
-
-		//$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		//$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-
-	}
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
