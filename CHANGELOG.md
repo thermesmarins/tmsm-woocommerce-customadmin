@@ -1,3 +1,6 @@
+### 1.0.8: October 26nd, 2017
+* Empty WP Rocket cache on save product
+
 ### 1.0.7: September 22nd, 2017
 * Remove WooCommerce tour guide
 

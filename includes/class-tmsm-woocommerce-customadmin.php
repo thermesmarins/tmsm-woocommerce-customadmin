@@ -69,7 +69,7 @@ class Tmsm_Woocommerce_Customadmin {
 	public function __construct() {
 
 		$this->plugin_name = 'tmsm-woocommerce-customadmin';
-		$this->version     = '1.0.7';
+		$this->version     = '1.0.8';
 
 		$this->load_dependencies();
 		$this->set_locale();
