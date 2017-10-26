@@ -111,4 +111,18 @@ class Tmsm_Woocommerce_Customadmin_Admin {
 	public function woocommerce_enable_admin_help_tab(){
 		return false;
 	}
+
+
+	/**
+	 * Empty WP Rocket cache on save product
+	 *
+	 * @param $product
+	 */
+	public function empty_wprocket_cache_on_save_product($product){
+		// clear cache of the default domain
+		if(function_exists('rocket_clean_domain')){
+			rocket_clean_domain();
+		}
+	}
+
 }
