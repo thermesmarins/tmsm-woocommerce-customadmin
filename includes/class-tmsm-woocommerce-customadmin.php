@@ -75,7 +75,7 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->set_locale();
 		$this->define_admin_hooks();
 
-		add_action( 'woocommerce_admin_process_product_object', array( $this, 'empty_wprocket_cache_on_save_product' ), 10, 1 );
+		add_action( 'woocommerce_admin_process_product_object', array( $this, 'empty_wprocket_cache_on_save_product' ) );
 
 		add_action( 'admin_head', array( $this, 'status_badges' ) );
 		add_action( 'admin_head', array( $this, 'menu_icons' ) );
