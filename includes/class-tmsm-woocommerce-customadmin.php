@@ -93,9 +93,6 @@ class Tmsm_Woocommerce_Customadmin {
 
 		add_filter( 'woocommerce_checkout_get_value', array( $this, 'checkout_default_values' ), 10, 2 );
 
-		// WooCommerce PDF Vouchers
-		add_filter( 'woo_vou_recipient_giftdate_format', array( $this, 'woo_vou_recipient_giftdate_format' ), 10, 2 );
-		add_filter( 'woo_vou_get_cart_date_format', array( $this, 'woo_vou_get_cart_date_format' ), 10, 2 );
 	}
 
 
