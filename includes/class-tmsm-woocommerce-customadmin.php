@@ -389,6 +389,7 @@ class Tmsm_Woocommerce_Customadmin {
 		$status_onhold         = _x( 'On hold', 'Order status', 'woocommerce' );
 		$status_cancelled      = _x( 'Cancelled', 'Order status', 'woocommerce' );
 		$status_refunded       = _x( 'Refunded', 'Order status', 'woocommerce' );
+		$status_processed       = _x( 'Processed', 'Order status', 'woocommerce' );
 
 		$css
 			= <<<TXT
@@ -415,6 +416,7 @@ class Tmsm_Woocommerce_Customadmin {
  .wp-list-table .type-shop_order  .column-order_status mark.cancelled:after,
  .wp-list-table .type-shop_order  .column-order_status mark.completed:after,
  .wp-list-table .type-shop_order  .column-order_status mark.refunded:after,
+ .wp-list-table .type-shop_order  .column-order_status mark.processed:after,
  .wp-list-table .type-shop_order  .column-order_status mark.failed:after {
    padding-top: 0.4em;
    font-weight: bold;
@@ -469,6 +471,16 @@ class Tmsm_Woocommerce_Customadmin {
  
  .wp-list-table .type-shop_order  .column-order_status mark.completed:after {
     content: "$status_completed";
+    color: #ffffff;
+ }
+ 
+ /* Completed status */
+ .wp-list-table .type-shop_order  .column-order_status mark.completed {
+   background-color: #7a43b6; /* Blue */
+ }
+ 
+ .wp-list-table .type-shop_order  .column-order_status mark.completed:after {
+    content: "$status_processed";
     color: #ffffff;
  }
  
