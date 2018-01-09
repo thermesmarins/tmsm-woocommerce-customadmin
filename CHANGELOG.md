@@ -1,3 +1,6 @@
+### 1.0.9: January 9th, 2018
+* New status "processed"
+
 ### 1.0.8: October 26nd, 2017
 * Empty WP Rocket cache on save product
 
