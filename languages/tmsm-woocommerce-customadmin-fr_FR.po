@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: StormBringer Wordpress theme\n"
-"POT-Creation-Date: 2018-01-10 09:55+0100\n"
-"PO-Revision-Date: 2018-01-10 10:03+0100\n"
+"POT-Creation-Date: 2018-01-10 15:32+0100\n"
+"PO-Revision-Date: 2018-01-10 15:32+0100\n"
 "Last-Translator: \n"
 "Language-Team: Nicolas Mollet <nico.mollet@gmail.com>\n"
 "Language: fr\n"
@@ -54,14 +54,16 @@ msgid "Failed"
 msgstr "Échouée"
 
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:338
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:515
 msgctxt "Order status"
-msgid "Processing"
-msgstr "En cours"
+msgid "Paid"
+msgstr "Payée"
 
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:339
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:516
 msgctxt "Order status"
-msgid "Completed"
-msgstr "Terminé"
+msgid "Shipped"
+msgstr "Expédiée"
 
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:340
 msgctxt "Order status"
@@ -81,8 +83,24 @@ msgstr "Remboursée"
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:343
 msgctxt "Order status"
 msgid "Processed"
-msgstr "Traitée"
+msgstr "Terminée"
+
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:528
+msgid "Mark paid"
+msgstr "Marquer payée"
+
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:529
+msgid "Mark shipped"
+msgstr "Marquer expédiée"
 
 #: ../includes/class-tmsm-woocommerce-customadmin-install.php:62
 msgid "Orders Manager"
 msgstr "Gestionnaire commandes"
+
+#~ msgctxt "Order status"
+#~ msgid "Processing"
+#~ msgstr "En cours"
+
+#~ msgctxt "Order status"
+#~ msgid "Completed"
+#~ msgstr "Terminé"

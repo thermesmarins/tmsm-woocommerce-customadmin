@@ -1,3 +1,8 @@
+### 1.0.10: January 10th, 2018
+* Sort order actions: view in first position
+* Color for status: processed
+* Color for order actions buttons: processing, complete, processed
+
 ### 1.0.9: January 9th, 2018
 * New status "processed"
 

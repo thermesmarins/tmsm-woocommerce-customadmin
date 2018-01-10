@@ -281,38 +281,7 @@ class Tmsm_Woocommerce_Customadmin_Admin {
 		return false;
 	}
 
-	/**
-	 * Shop Managers: redirect to orders
-	 *
-	 * @param $redirect_to
-	 * @param $request
-	 * @param $user
-	 *
-	 * @return string
-	 */
-	function redirect_shop_managers( $redirect_to, $request, $user ) {
 
-		$redirect_to_orders = admin_url( 'edit.php?post_type=shop_order' );
-
-		//is there a user to check?
-		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-			// Default redirect for admins
-			if ( in_array( 'administrator', $user->roles ) || in_array( 'editor', $user->roles ) || in_array( 'contributor', $user->roles )
-			     || in_array( 'author', $user->roles )
-			) {
-				return $redirect_to;
-			} elseif ( in_array( 'shop_manager', $user->roles ) || in_array( 'shop_order_manager', $user->roles ) ) {
-				// Redirect shop_manager and shop_order_manager to the orders page
-				return $redirect_to_orders;
-			} else {
-				// Default redirect for other roles
-				return $redirect_to;
-			}
-		} else {
-			// Default redirect for no role
-			return $redirect_to;
-		}
-	}
 
 
 	/**
@@ -335,8 +304,8 @@ class Tmsm_Woocommerce_Customadmin_Admin {
 
 		$status_pendingpayment = _x( 'Pending payment', 'Order status', 'woocommerce' );
 		$status_failed         = _x( 'Failed', 'Order status', 'woocommerce' );
-		$status_processing     = _x( 'Processing', 'Order status', 'woocommerce' );
-		$status_completed      = _x( 'Completed', 'Order status', 'woocommerce' );
+		$status_processing     = _x( 'Paid', 'Order status', 'tmsm-woocommerce-customadmin' );
+		$status_completed      = _x( 'Shipped', 'Order status', 'tmsm-woocommerce-customadmin' );
 		$status_onhold         = _x( 'On hold', 'Order status', 'woocommerce' );
 		$status_cancelled      = _x( 'Cancelled', 'Order status', 'woocommerce' );
 		$status_refunded       = _x( 'Refunded', 'Order status', 'woocommerce' );
@@ -471,6 +440,13 @@ class Tmsm_Woocommerce_Customadmin_Admin {
     color: #ffffff;
  }
  
+ .order_actions .complete:after {
+    content: "\\f310" !important; 
+  }
+ .order_actions .processed:after {
+    content: "\\f147" !important; 
+  }
+  
  </style>
 TXT;
 
@@ -494,6 +470,32 @@ TXT;
 		}
 
 		array_unshift($actions, $action_view);
+		return $actions;
+	}
+
+
+	/**
+	 * Rename order statuses
+	 * @param $statuses array
+	 *
+	 * @return array
+	 */
+	function rename_order_statuses($statuses){
+		$statuses['wc-processing'] = _x( 'Paid', 'Order status', 'tmsm-woocommerce-customadmin' );
+		$statuses['wc-completed'] = _x( 'Shipped', 'Order status', 'tmsm-woocommerce-customadmin' );
+		return $statuses;
+	}
+
+	/**
+	 * Rename bulk actions
+	 *
+	 * @param array $actions
+	 *
+	 * @return array
+	 */
+	function rename_bulk_actions(array $actions){
+		$actions['mark_processing'] = __( 'Mark paid', 'tmsm-woocommerce-customadmin' );
+		$actions['mark_completed']  = __( 'Mark shipped', 'tmsm-woocommerce-customadmin' );
 		return $actions;
 	}
 }

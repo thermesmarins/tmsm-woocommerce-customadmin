@@ -75,8 +75,6 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->set_locale();
 		$this->define_admin_hooks();
 
-
-
 		add_action( 'login_redirect', array( $this, 'redirect_shop_managers' ), 100, 3 );
 
 		add_filter( 'woocommerce_checkout_get_value', array( $this, 'checkout_default_values' ), 10, 2 );
@@ -111,6 +109,8 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_action( 'manage_users_custom_column', $plugin_admin, 'users_custom_column' );
 		$this->loader->add_filter( 'manage_users_sortable_columns', $plugin_admin, 'manage_users_sortable_columns' );
 		$this->loader->add_filter( 'woocommerce_admin_order_actions', $plugin_admin, 'admin_order_actions', 10, 2 );
+		$this->loader->add_filter( 'wc_order_statuses', $plugin_admin, 'rename_order_statuses', 10, 1 );
+		$this->loader->add_filter( 'bulk_actions-edit-shop_order', $plugin_admin, 'rename_bulk_actions', 50, 1 );
 
 	}
 
@@ -150,6 +150,39 @@ class Tmsm_Woocommerce_Customadmin {
 		}
 
 		return $date;
+	}
+
+	/**
+	 * Shop Managers: redirect to orders
+	 *
+	 * @param $redirect_to
+	 * @param $request
+	 * @param $user
+	 *
+	 * @return string
+	 */
+	function redirect_shop_managers( $redirect_to, $request, $user ) {
+
+		$redirect_to_orders = admin_url( 'edit.php?post_type=shop_order' );
+
+		//is there a user to check?
+		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+			// Default redirect for admins
+			if ( in_array( 'administrator', $user->roles ) || in_array( 'editor', $user->roles ) || in_array( 'contributor', $user->roles )
+			     || in_array( 'author', $user->roles )
+			) {
+				return $redirect_to;
+			} elseif ( in_array( 'shop_manager', $user->roles ) || in_array( 'shop_order_manager', $user->roles ) ) {
+				// Redirect shop_manager and shop_order_manager to the orders page
+				return $redirect_to_orders;
+			} else {
+				// Default redirect for other roles
+				return $redirect_to;
+			}
+		} else {
+			// Default redirect for no role
+			return $redirect_to;
+		}
 	}
 
 	/**

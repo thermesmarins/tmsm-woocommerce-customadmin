@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TMSM WooCommerce Custom Admin\n"
-"POT-Creation-Date: 2018-01-10 09:56+0100\n"
+"POT-Creation-Date: 2018-01-10 15:32+0100\n"
 "PO-Revision-Date: 2014-10-24 21:08+0100\n"
 "Last-Translator: Nicolas Mollet <nico.mollet@gmail.com>\n"
 "Language-Team: Nicolas Mollet <nico.mollet@gmail.com>\n"
@@ -55,13 +55,15 @@ msgid "Failed"
 msgstr ""
 
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:338
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:515
 msgctxt "Order status"
-msgid "Processing"
+msgid "Paid"
 msgstr ""
 
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:339
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:516
 msgctxt "Order status"
-msgid "Completed"
+msgid "Shipped"
 msgstr ""
 
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:340
@@ -82,6 +84,14 @@ msgstr ""
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:343
 msgctxt "Order status"
 msgid "Processed"
+msgstr ""
+
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:528
+msgid "Mark paid"
+msgstr ""
+
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:529
+msgid "Mark shipped"
 msgstr ""
 
 #: ../includes/class-tmsm-woocommerce-customadmin-install.php:62
