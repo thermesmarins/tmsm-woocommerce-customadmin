@@ -1,3 +1,6 @@
+### 1.1.0: January 18th, 2018
+* Add billing title field to the checkout page / my account > my address page
+
 ### 1.0.10: January 10th, 2018
 * Sort order actions: view in first position
 * Color for status: processed

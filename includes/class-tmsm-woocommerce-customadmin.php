@@ -74,10 +74,8 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
+		$this->define_public_hooks();
 
-		add_action( 'login_redirect', array( $this, 'redirect_shop_managers' ), 100, 3 );
-
-		add_filter( 'woocommerce_checkout_get_value', array( $this, 'checkout_default_values' ), 10, 2 );
 
 	}
 
@@ -94,6 +92,9 @@ class Tmsm_Woocommerce_Customadmin {
 
 		$plugin_admin = new Tmsm_Woocommerce_Customadmin_Admin( $this->get_plugin_name(), $this->get_version() );
 
+		//$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
+		//$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+
 		$this->loader->add_filter( 'woocommerce_enable_admin_help_tab', $plugin_admin, 'woocommerce_enable_admin_help_tab' );
 		$this->loader->add_action( 'woocommerce_admin_process_product_object', $plugin_admin, 'empty_wprocket_cache_on_save_product' );
 
@@ -104,7 +105,6 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_filter( 'admin_head', $plugin_admin, 'menu_customers', 999 );
 		$this->loader->add_filter( 'admin_head', $plugin_admin, 'order_export', 999 );
 
-
 		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'users_columns' );
 		$this->loader->add_action( 'manage_users_custom_column', $plugin_admin, 'users_custom_column' );
 		$this->loader->add_filter( 'manage_users_sortable_columns', $plugin_admin, 'manage_users_sortable_columns' );
@@ -114,101 +114,25 @@ class Tmsm_Woocommerce_Customadmin {
 
 	}
 
-
 	/**
-	 * WooCommerce PDF Vouchers: gift datepicker format
+	 * Register all of the hooks related to the public-facing functionality
+	 * of the plugin.
 	 *
-	 * @param $date_format
-	 *
-	 * @return string
-	 *
+	 * @since    1.1.0
+	 * @access   private
 	 */
-	function woo_vou_recipient_giftdate_format( $date_format ) {
-		return 'dd-mm-yy';
-	}
+	private function define_public_hooks() {
 
-	/**
-	 * WooCommerce PDF Vouchers: gift date format in cart
-	 *
-	 * @param $date
-	 *
-	 * @return string
-	 */
-	function woo_vou_get_cart_date_format( $date ) {
+		$plugin_public = new Tmsm_Woocommerce_Customadmin_Public( $this->get_plugin_name(), $this->get_version() );
 
-		if ( strpos( $date, '-' ) ) {
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
+		//$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
-			// Explode $date to get date, month and year parameters
-			$date_arr = explode( '-', $date );
+		$this->loader->add_filter( 'login_redirect', $plugin_public, 'redirect_shop_managers' );
+		$this->loader->add_action( 'woocommerce_checkout_get_value', $plugin_public, 'checkout_default_values', 10, 2 );
+		$this->loader->add_action( 'woocommerce_billing_fields', $plugin_public, 'billing_fields_title_birthday', 10, 1 );
+		$this->loader->add_action( 'woocommerce_checkout_update_order_meta', $plugin_public, 'checkout_update_order_meta_title_birthday', 10, 2 );
 
-			$dateObj = DateTime::createFromFormat( '!M', $date_arr[1] ); // Check month for string format
-			if ( ! empty( $dateObj ) ) {
-				$date_arr[1] = $dateObj->format( 'm' );
-				$date        = implode( '-', $date_arr );
-			}
-
-		}
-
-		return $date;
-	}
-
-	/**
-	 * Shop Managers: redirect to orders
-	 *
-	 * @param $redirect_to
-	 * @param $request
-	 * @param $user
-	 *
-	 * @return string
-	 */
-	function redirect_shop_managers( $redirect_to, $request, $user ) {
-
-		$redirect_to_orders = admin_url( 'edit.php?post_type=shop_order' );
-
-		//is there a user to check?
-		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-			// Default redirect for admins
-			if ( in_array( 'administrator', $user->roles ) || in_array( 'editor', $user->roles ) || in_array( 'contributor', $user->roles )
-			     || in_array( 'author', $user->roles )
-			) {
-				return $redirect_to;
-			} elseif ( in_array( 'shop_manager', $user->roles ) || in_array( 'shop_order_manager', $user->roles ) ) {
-				// Redirect shop_manager and shop_order_manager to the orders page
-				return $redirect_to_orders;
-			} else {
-				// Default redirect for other roles
-				return $redirect_to;
-			}
-		} else {
-			// Default redirect for no role
-			return $redirect_to;
-		}
-	}
-
-	/**
-	 * Default checkout values
-	 *
-	 * @param $input
-	 * @param $key
-	 *
-	 * @return string
-	 */
-	function checkout_default_values( $input, $key ) {
-		global $current_user;
-		switch ( $key ) :
-			case 'billing_first_name':
-			case 'shipping_first_name':
-				return $current_user->first_name;
-				break;
-
-			case 'billing_last_name':
-			case 'shipping_last_name':
-				return $current_user->last_name;
-				break;
-			case 'billing_email':
-				return $current_user->user_email;
-				break;
-		endswitch;
 	}
 
 	/**
@@ -245,6 +169,12 @@ class Tmsm_Woocommerce_Customadmin {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-tmsm-woocommerce-customadmin-admin.php';
 
+		/**
+		 * The class responsible for defining all actions that occur in the public-facing
+		 * side of the site.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-tmsm-woocommerce-customadmin-public.php';
+
 		$this->loader = new Tmsm_Woocommerce_Customadmin_Loader();
 
 	}
@@ -265,7 +195,6 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
 	}
-
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.

@@ -1,0 +1,23 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+.woocommerce-billing-fields .billing-title *,
+.woocommerce-address-fields .billing-title *
+{
+  display: inline-block;
+}
+
+.woocommerce-billing-fields .billing-title .input-radio,
+.woocommerce-address-fields .billing-title .input-radio
+{
+  margin-left: 20px;
+  margin-right: 5px;
+}
+
+.woocommerce-billing-fields .billing-title .input-radio + label,
+.woocommerce-address-fields .billing-title .input-radio + label
+{
+  font-weight: normal;
+}
