@@ -106,11 +106,13 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_filter( 'admin_head', $plugin_admin, 'order_export', 999 );
 
 		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'users_columns' );
-		$this->loader->add_action( 'manage_users_custom_column', $plugin_admin, 'users_custom_column' );
-		$this->loader->add_filter( 'manage_users_sortable_columns', $plugin_admin, 'manage_users_sortable_columns' );
+		$this->loader->add_action( 'manage_users_custom_column', $plugin_admin, 'users_custom_column', 10, 3 );
+		$this->loader->add_filter( 'manage_users_sortable_columns', $plugin_admin, 'users_sortable_columns' );
 		$this->loader->add_filter( 'woocommerce_admin_order_actions', $plugin_admin, 'admin_order_actions', 10, 2 );
 		$this->loader->add_filter( 'wc_order_statuses', $plugin_admin, 'rename_order_statuses', 10, 1 );
 		$this->loader->add_filter( 'bulk_actions-edit-shop_order', $plugin_admin, 'rename_bulk_actions', 50, 1 );
+
+
 
 	}
 
@@ -133,6 +135,8 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_action( 'woocommerce_billing_fields', $plugin_public, 'billing_fields_title_birthday', 10, 1 );
 		$this->loader->add_action( 'woocommerce_checkout_update_order_meta', $plugin_public, 'checkout_update_order_meta_title_birthday', 10, 2 );
 
+		// Mailchimp compatibility
+		$this->loader->add_filter( 'mailchimp_sync_user_mergevars', $plugin_public, 'mailchimp_sync_user_mergevars', 100, 2 );
 	}
 
 	/**

@@ -207,6 +207,21 @@ class Tmsm_Woocommerce_Customadmin_Public {
 	}
 
 	/**
+	 * Title field options
+	 *
+	 * @return mixed
+	 */
+	private static function billing_title_options(){
+
+		$options = array(
+			'2' => _x('Ms', 'honorific title', 'tmsm-woocommerce-customadmin' ),
+			'1' => _x('Mr', 'honorific title', 'tmsm-woocommerce-customadmin' ),
+		);
+
+		return $options;
+	}
+
+	/**
 	 * Add title & birthdate to checkout page
 	 *
 	 * @param $fields
@@ -223,10 +238,7 @@ class Tmsm_Woocommerce_Customadmin_Public {
 			'label_class'          => ['control-label'],
 			'input_class'          => [''],
 			//'custom_attributes'          => ['style' => 'display:inline-block'],
-			'options'     => array(
-				'2' => _x('Ms', 'honorific title', 'tmsm-woocommerce-customadmin' ),
-				'1' => _x('Mr', 'honorific title', 'tmsm-woocommerce-customadmin' ),
-			)
+			'options'     => self::billing_title_options()
 		);
 		//array_unshift($fields, $field_title);
 		$fields = array_merge($new_fields, $fields );
@@ -244,5 +256,28 @@ class Tmsm_Woocommerce_Customadmin_Public {
 		if( isset( $posted['billing_title'] ) ) {
 			update_post_meta( $order_id, '_billing_title', sanitize_text_field( $posted['billing_title'] ) );
 		}
+	}
+
+
+	/**
+	 * Mailchimp sync user merge vars: PRENOM, NOM, CIV
+	 *
+	 * @param WP_User $user
+	 * @param array $merge_vars
+	 *
+	 * @return array
+	 */
+	function mailchimp_sync_user_mergevars($user, $merge_vars){
+
+		$merge_vars['PRENOM'] = trim($user->first_name);
+		$merge_vars['NOM'] = trim($user->last_name);
+
+		$billing_title_value = get_user_meta($user->ID, 'billing_title', true);
+		$billing_title_options = self::billing_title_options();
+
+		if($billing_title_value && isset($billing_title_options[$billing_title_value])){
+			$merge_vars['CIV'] = $billing_title_options[$billing_title_value];
+		}
+		return $merge_vars;
 	}
 }

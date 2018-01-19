@@ -498,4 +498,5 @@ TXT;
 		$actions['mark_completed']  = __( 'Mark shipped', 'tmsm-woocommerce-customadmin' );
 		return $actions;
 	}
+
 }
