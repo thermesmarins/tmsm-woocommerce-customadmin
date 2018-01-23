@@ -269,9 +269,6 @@ class Tmsm_Woocommerce_Customadmin_Public {
 	 */
 	function mailchimp_sync_user_mergevars($user, $merge_vars){
 
-		//mailchimp_log('member.sync', "mailchimp_sync_user_mergevars");
-		//mailchimp_log('member.sync', "get_user_meta all", get_user_meta($user->ID));
-
 		$merge_vars['PRENOM'] = ( trim( get_user_meta( $user->ID, 'billing_first_name', true )) ? trim( get_user_meta( $user->ID, 'billing_first_name',
 			true ) ) : trim( $user->first_name ) );
 		$merge_vars['NOM']    = ( trim( get_user_meta( $user->ID, 'billing_last_name', true )) ? trim( get_user_meta( $user->ID, 'billing_last_name',
@@ -281,7 +278,6 @@ class Tmsm_Woocommerce_Customadmin_Public {
 		$billing_title_options = self::billing_title_options();
 
 		if($billing_title_value && isset($billing_title_options[$billing_title_value])){
-			//mailchimp_log('member.sync', "get_user_meta CIV", $billing_title_options[$billing_title_value] );
 			$merge_vars['CIV'] = $billing_title_options[$billing_title_value];
 		}
 		return $merge_vars;
