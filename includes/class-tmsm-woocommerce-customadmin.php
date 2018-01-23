@@ -69,7 +69,7 @@ class Tmsm_Woocommerce_Customadmin {
 	public function __construct() {
 
 		$this->plugin_name = 'tmsm-woocommerce-customadmin';
-		$this->version     = '1.0.10';
+		$this->version     = '1.1.0';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -130,7 +130,7 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		//$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
-		$this->loader->add_filter( 'login_redirect', $plugin_public, 'redirect_shop_managers' );
+		$this->loader->add_filter( 'login_redirect', $plugin_public, 'redirect_shop_managers', 10, 3 );
 		$this->loader->add_action( 'woocommerce_checkout_get_value', $plugin_public, 'checkout_default_values', 10, 2 );
 		$this->loader->add_action( 'woocommerce_billing_fields', $plugin_public, 'billing_fields_title_birthday', 10, 1 );
 		$this->loader->add_action( 'woocommerce_checkout_update_order_meta', $plugin_public, 'checkout_update_order_meta_title_birthday', 10, 2 );

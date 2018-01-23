@@ -1,4 +1,4 @@
-### 1.1.0: January 18th, 2018
+### 1.1.0: January 21th, 2018
 * Add billing title field to the checkout page / my account > my address page
 * Sync Mailchimp user details with merge tags: PRENOM, NOM, CIV
 
