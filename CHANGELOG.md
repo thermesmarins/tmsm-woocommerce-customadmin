@@ -1,6 +1,7 @@
 ### 1.1.0: January 21th, 2018
 * Add billing title field to the checkout page / my account > my address page
 * Sync Mailchimp user details with merge tags: PRENOM, NOM, CIV
+* Adapt to the processed option in vouchers
 
 ### 1.0.10: January 10th, 2018
 * Sort order actions: view in first position

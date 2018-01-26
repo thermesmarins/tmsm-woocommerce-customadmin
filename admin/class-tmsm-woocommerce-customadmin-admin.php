@@ -305,11 +305,17 @@ class Tmsm_Woocommerce_Customadmin_Admin {
 		$status_pendingpayment = _x( 'Pending payment', 'Order status', 'woocommerce' );
 		$status_failed         = _x( 'Failed', 'Order status', 'woocommerce' );
 		$status_processing     = _x( 'Paid', 'Order status', 'tmsm-woocommerce-customadmin' );
-		$status_completed      = _x( 'Shipped', 'Order status', 'tmsm-woocommerce-customadmin' );
+		if (get_option( 'tmsm_woocommerce_vouchers_shippedstatus' ) == 'yes'){
+			$status_completed      = _x( 'Shipped', 'Order status', 'tmsm-woocommerce-customadmin' );
+			$status_processed       = _x( 'Processed', 'Order status', 'tmsm-woocommerce-customadmin' );
+		}
+		else{
+			$status_completed      = _x( 'Completed', 'Order status', 'woocommerce' );
+			$status_processed       = _x( 'Processed', 'Order status', 'tmsm-woocommerce-customadmin' );
+		}
 		$status_onhold         = _x( 'On hold', 'Order status', 'woocommerce' );
 		$status_cancelled      = _x( 'Cancelled', 'Order status', 'woocommerce' );
 		$status_refunded       = _x( 'Refunded', 'Order status', 'woocommerce' );
-		$status_processed       = _x( 'Processed', 'Order status', 'tmsm-woocommerce-customadmin' );
 
 		$css
 			= <<<TXT
@@ -481,9 +487,29 @@ TXT;
 	 * @return array
 	 */
 	function rename_order_statuses($statuses){
-		$statuses['wc-processing'] = _x( 'Paid', 'Order status', 'tmsm-woocommerce-customadmin' );
-		$statuses['wc-completed'] = _x( 'Shipped', 'Order status', 'tmsm-woocommerce-customadmin' );
+		if (get_option( 'tmsm_woocommerce_vouchers_shippedstatus' ) == 'yes'){
+			$statuses['wc-processing'] = _x( 'Paid', 'Order status', 'tmsm-woocommerce-customadmin' );
+			$statuses['wc-completed'] = _x( 'Shipped', 'Order status', 'tmsm-woocommerce-customadmin' );
+		}
 		return $statuses;
+	}
+
+	/**
+	 * Rename order statuses in views filters
+	 *
+	 * @param $views array
+	 *
+	 * @return array
+	 */
+	function rename_views_filters($views){
+		foreach($views as &$view){
+			$view = str_replace(_x( 'Processing', 'Order status', 'woocommerce' ), _x( 'Paid', 'Order status', 'tmsm-woocommerce-customadmin' ), $view);
+			if (get_option( 'tmsm_woocommerce_vouchers_shippedstatus' ) == 'yes') {
+				$view = str_replace(_x( 'Completed', 'Order status', 'woocommerce' ), _x( 'Shipped', 'Order status', 'tmsm-woocommerce-customadmin' ), $view);
+				$view = str_replace('Processed', _x( 'Processed', 'Order status', 'tmsm-woocommerce-customadmin' ), $view);
+			}
+		}
+		return $views;
 	}
 
 	/**
@@ -494,8 +520,10 @@ TXT;
 	 * @return array
 	 */
 	function rename_bulk_actions(array $actions){
-		$actions['mark_processing'] = __( 'Mark paid', 'tmsm-woocommerce-customadmin' );
-		$actions['mark_completed']  = __( 'Mark shipped', 'tmsm-woocommerce-customadmin' );
+		if (get_option( 'tmsm_woocommerce_vouchers_shippedstatus' ) == 'yes'){
+			$actions['mark_processing'] = __( 'Mark paid', 'tmsm-woocommerce-customadmin' );
+			$actions['mark_completed']  = __( 'Mark shipped', 'tmsm-woocommerce-customadmin' );
+		}
 		return $actions;
 	}
 

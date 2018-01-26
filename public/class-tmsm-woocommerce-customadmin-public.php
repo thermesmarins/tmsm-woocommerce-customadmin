@@ -260,14 +260,14 @@ class Tmsm_Woocommerce_Customadmin_Public {
 
 
 	/**
-	 * Mailchimp sync user merge vars: PRENOM, NOM, CIV
+	 * Mailchimp sync user merge tags: PRENOM, NOM, CIV
 	 *
 	 * @param WP_User $user
 	 * @param array $merge_vars
 	 *
 	 * @return array
 	 */
-	function mailchimp_sync_user_mergevars($user, $merge_vars){
+	function mailchimp_sync_user_mergetags($user, $merge_vars){
 
 		$merge_vars['PRENOM'] = ( trim( get_user_meta( $user->ID, 'billing_first_name', true )) ? trim( get_user_meta( $user->ID, 'billing_first_name',
 			true ) ) : trim( $user->first_name ) );
