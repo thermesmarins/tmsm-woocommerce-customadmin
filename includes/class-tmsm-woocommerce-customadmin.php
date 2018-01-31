@@ -94,10 +94,15 @@ class Tmsm_Woocommerce_Customadmin {
 
 		$plugin_admin = new Tmsm_Woocommerce_Customadmin_Admin( $this->get_plugin_name(), $this->get_version() );
 
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+
 		$this->loader->add_filter( 'woocommerce_enable_admin_help_tab', $plugin_admin, 'woocommerce_enable_admin_help_tab' );
+		$this->loader->add_filter( 'woocommerce_admin_order_date_format', $plugin_admin, 'woocommerce_admin_order_date_format' );
 		$this->loader->add_action( 'woocommerce_admin_process_product_object', $plugin_admin, 'empty_wprocket_cache_on_save_product' );
 
-		$this->loader->add_filter( 'admin_head', $plugin_admin, 'status_badges', 999 );
+		$this->loader->add_filter( 'wc_order_statuses', $plugin_admin, 'wc_get_order_statuses', 999 );
+		$this->loader->add_filter( 'admin_head', $plugin_admin, 'color_badges', 999 );
 		$this->loader->add_filter( 'admin_head', $plugin_admin, 'menu_icons', 999 );
 		$this->loader->add_filter( 'admin_head', $plugin_admin, 'hide_woocommerce', 999 );
 		$this->loader->add_filter( 'admin_head', $plugin_admin, 'rename_menu', 999 );

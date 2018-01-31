@@ -72,7 +72,6 @@ class Tmsm_Woocommerce_Customadmin_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/tmsm-woocommerce-customadmin-admin.css', array(), $this->version, 'all' );
 
 	}
@@ -125,6 +124,68 @@ class Tmsm_Woocommerce_Customadmin_Admin {
 		}
 	}
 
+	/**
+	 * Color badges
+	 */
+	function color_badges() {
+
+		$css = '';
+		if (get_option( 'tmsm_woocommerce_vouchers_shippedstatus' ) == 'yes'){
+
+			$css .= <<<TXT
+<style type="text/css">
+
+.order-status.status-processed {
+background: #e1c8de;
+color: #512e53;
+}
+
+.column-wc_actions .complete:after {
+content: "\\f310" !important;
+color: #2e4453;
+}
+
+.column-wc_actions .processed:after {
+content: "\\f147" !important;
+color: #512e53;
+
+}
+
+</style>
+TXT;
+
+		}
+
+		$css .= <<<TXT
+<style type="text/css">
+.column-wc_actions .complete{
+background: #c8d7e1;
+color: #2e4453;
+}
+.column-wc_actions .processed{
+background: #e1c8de;
+color: #512e53
+}
+
+</style>
+TXT;
+
+		echo $css;
+	}
+
+
+	/**
+	 * Order date format
+	 *
+	 * @param $date_format
+	 *
+	 * @return mixed
+	 */
+	function woocommerce_admin_order_date_format($date_format){
+
+		$date_format = __( 'M j, Y', 'tmsm-woocommerce-customadmin' );
+		return $date_format;
+	}
 
 	/**
 	 * Customers menu item
@@ -298,165 +359,26 @@ class Tmsm_Woocommerce_Customadmin_Admin {
 	}
 
 	/**
-	 * Status badges
+	 * Custom order statuses
+	 *
+	 * @return mixed
 	 */
-	function status_badges() {
+	function wc_get_order_statuses() {
+		$order_statuses = array(
+			'wc-pending'    => _x( 'Pending payment', 'Order status', 'woocommerce' ),
+			'wc-processing' => _x( 'Paid', 'Order status', 'tmsm-woocommerce-customadmin' ),
+			'wc-on-hold'    => _x( 'On hold', 'Order status', 'woocommerce' ),
+			'wc-completed'  => _x( 'Completed', 'Order status', 'woocommerce' ),
+			'wc-cancelled'  => _x( 'Cancelled', 'Order status', 'woocommerce' ),
+			'wc-refunded'   => _x( 'Refunded', 'Order status', 'woocommerce' ),
+			'wc-failed'     => _x( 'Failed', 'Order status', 'woocommerce' )
+		);
 
-		$status_pendingpayment = _x( 'Pending payment', 'Order status', 'woocommerce' );
-		$status_failed         = _x( 'Failed', 'Order status', 'woocommerce' );
-		$status_processing     = _x( 'Paid', 'Order status', 'tmsm-woocommerce-customadmin' );
 		if (get_option( 'tmsm_woocommerce_vouchers_shippedstatus' ) == 'yes'){
-			$status_completed      = _x( 'Shipped', 'Order status', 'tmsm-woocommerce-customadmin' );
-			$status_processed       = _x( 'Processed', 'Order status', 'tmsm-woocommerce-customadmin' );
+			$order_statuses['wc-completed'] = _x( 'Shipped', 'Order status', 'tmsm-woocommerce-customadmin' );
+			$order_statuses['wc-processed'] = _x( 'Processed', 'Order status', 'tmsm-woocommerce-customadmin' );
 		}
-		else{
-			$status_completed      = _x( 'Completed', 'Order status', 'woocommerce' );
-			$status_processed       = _x( 'Processed', 'Order status', 'tmsm-woocommerce-customadmin' );
-		}
-		$status_onhold         = _x( 'On hold', 'Order status', 'woocommerce' );
-		$status_cancelled      = _x( 'Cancelled', 'Order status', 'woocommerce' );
-		$status_refunded       = _x( 'Refunded', 'Order status', 'woocommerce' );
-
-		$css
-			= <<<TXT
-<style type="text/css">
- 
- .wp-list-table .manage-column.column-order_status,
- .wp-list-table .type-shop_order  .column-order_status {
-   width: 80px;
- }
- 
- /* General properties for badge */
- .wp-list-table .type-shop_order  .column-order_status mark {
-   font-size: 0.8em;
-   border-radius: 3px;
-   height: 2em;
-   width: 6em;
-   margin: 0 10px;
- }
- 
- /* Adjust text placement in badge */
- .wp-list-table .type-shop_order  .column-order_status mark.pending:after,
- .wp-list-table .type-shop_order  .column-order_status mark.processing:after,
- .wp-list-table .type-shop_order  .column-order_status mark.on-hold:after,
- .wp-list-table .type-shop_order  .column-order_status mark.cancelled:after,
- .wp-list-table .type-shop_order  .column-order_status mark.completed:after,
- .wp-list-table .type-shop_order  .column-order_status mark.refunded:after,
- .wp-list-table .type-shop_order  .column-order_status mark.processed:after,
- .wp-list-table .type-shop_order  .column-order_status mark.failed:after {
-   padding-top: 0.4em;
-   font-weight: bold;
-   font-family: inherit;
-   font-size: 11px;
-   line-height: 1;
-   margin: 0;
-   text-indent: 0;
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   text-align: center;
- }
- .column-order_actions .processing,
- .column-order_actions .cancelled,
- .column-order_actions .complete,
- .column-order_actions .processed
- {
-    color:white;
- }
- 
- /* Pending status */
- .wp-list-table .type-shop_order  .column-order_status mark.pending {
-   background-color: #999; /* Gray */
- }
- 
- .wp-list-table .type-shop_order  .column-order_status mark.pending:after {
-   content: "$status_pendingpayment";
-   color: #fff;
- }
- 
-  /* Processing status */
- .wp-list-table .type-shop_order  .column-order_status mark.processing, .column-order_actions .processing {
-   background-color: #73a724; /* Green */
- }
- 
- .wp-list-table .type-shop_order  .column-order_status mark.processing:after {
-   content: "$status_processing";
-   color: #ffffff;
- }
- 
- /* On-Hold status */
- .wp-list-table .type-shop_order  .column-order_status mark.on-hold {
-   background-color: #999; /* Gray */
- }
- 
- .wp-list-table .type-shop_order  .column-order_status mark.on-hold:after {
-   content: "$status_onhold";
-   color: #ffffff;
- }
- 
- /* Cancelled status */
- .wp-list-table .type-shop_order  .column-order_status mark.cancelled {
-   background-color: #a00; /* Red */
- }
- 
- .wp-list-table .type-shop_order  .column-order_status mark.cancelled:after {
-   content: "$status_cancelled";
-   color: #ffffff;
- }
- 
- /* Completed status */
- .wp-list-table .type-shop_order  .column-order_status mark.completed, .column-order_actions .complete {
-   background-color: #2ea2cc; /* Blue */
- }
- 
- .wp-list-table .type-shop_order  .column-order_status mark.completed:after {
-    content: "$status_completed";
-    color: #ffffff;
- }
- 
- /* Completed status */
- .wp-list-table .type-shop_order  .column-order_status mark.processed, .column-order_actions .processed {
-   background-color: #7a43b6; /* Blue */
- }
- 
- .wp-list-table .type-shop_order  .column-order_status mark.processed:after {
-    content: "$status_processed";
-    color: #ffffff;
- }
- 
- /* Refunded status */
- .wp-list-table .type-shop_order  .column-order_status mark.refunded {
-   background-color: #000; /* Black */
- }
- 
- .wp-list-table .type-shop_order  .column-order_status mark.refunded:after {
-    content: "$status_refunded";
-    color: #ffffff;
- }
- 
- /* Failed status */
- .wp-list-table .type-shop_order  .column-order_status mark.failed {
-   background-color: #d0c21f; /* Yellow */
- }
- 
- .wp-list-table .type-shop_order  .column-order_status mark.failed:after {
-    content: "$status_failed";
-    color: #ffffff;
- }
- 
- .order_actions .complete:after {
-    content: "\\f310" !important; 
-  }
- .order_actions .processed:after {
-    content: "\\f147" !important; 
-  }
-  
- </style>
-TXT;
-
-		echo $css;
+		return $order_statuses;
 	}
 
 	/**

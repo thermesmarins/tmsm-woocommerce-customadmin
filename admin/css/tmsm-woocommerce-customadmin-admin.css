@@ -1,4 +1,3 @@
-/**
- * All of the CSS for your admin-specific functionality should be
- * included in this file.
- */
+.post-type-shop_order .wp-list-table .column-order_date{
+  white-space: nowrap !important;
+}
