@@ -483,7 +483,7 @@ TXT;
 		if (get_option( 'tmsm_woocommerce_vouchers_shippedstatus' ) == 'yes'){
 
 			$actions['mark_completed']  = __( 'Mark shipped', 'tmsm-woocommerce-customadmin' );
-			$bulk_actions['mark_processed'] = __('Mark as processed', 'tmsm-woocommerce-vouchers');
+			$actions['mark_processed'] = __('Mark as processed', 'tmsm-woocommerce-vouchers');
 
 		}
 		return $actions;
