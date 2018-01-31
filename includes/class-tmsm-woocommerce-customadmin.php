@@ -69,10 +69,11 @@ class Tmsm_Woocommerce_Customadmin {
 	public function __construct() {
 
 		$this->plugin_name = 'tmsm-woocommerce-customadmin';
-		$this->version     = '1.1.0';
+		$this->version     = '1.1.1';
 
 		$this->load_dependencies();
 		$this->set_locale();
+		$this->register_processedstatus();
 		$this->define_admin_hooks();
 
 		add_action( 'login_redirect', array( $this, 'redirect_shop_managers' ), 100, 3 );
@@ -117,9 +118,37 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_filter( 'wc_order_statuses', $plugin_admin, 'rename_order_statuses', 10, 1 );
 		$this->loader->add_filter( 'bulk_actions-edit-shop_order', $plugin_admin, 'rename_bulk_actions', 50, 1 );
 		$this->loader->add_filter( 'views_edit-shop_order', $plugin_admin, 'rename_views_filters', 50, 1 );
+		$this->loader->add_filter( 'woocommerce_admin_order_preview_actions', $plugin_admin, 'woocommerce_admin_order_preview_actions', 50, 2 );
+		$this->loader->add_filter( 'woocommerce_admin_order_actions', $plugin_admin, 'woocommerce_admin_order_actions', 10, 2 );
+		$this->loader->add_filter( 'admin_action_mark_processed', $plugin_admin, 'admin_action_mark_processed', 10 );
+
+		$this->loader->add_action( 'woocommerce_order_status_processing_to_processed', $plugin_admin, 'status_processing_to_processed', 10, 2 );
+		$this->loader->add_action( 'woocommerce_order_status_completed_to_processed', $plugin_admin, 'status_completed_to_processed', 10, 2 );
+
+		$this->loader->add_action( 'woocommerce_order_is_paid_statuses', $plugin_admin, 'woocommerce_order_is_paid_statuses', 10, 1 );
+		$this->loader->add_action( 'woocommerce_reports_order_statuses', $plugin_admin, 'woocommerce_reports_order_statuses', 10, 1 );
+
 
 	}
 
+	/**
+	 * Define the locale for this plugin for internationalization.
+	 *
+	 * Uses the Tmsm_Woocommerce_Vouchers_i18n class in order to set the domain and to register the hook
+	 * with WordPress.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function register_processedstatus() {
+
+		$plugin_posttypes = new Tmsm_Woocommerce_Customadmin_Processedstatus();
+
+		$this->loader->add_filter( 'init', $plugin_posttypes, 'register_post_status_processed' );
+		$this->loader->add_filter( 'wc_order_statuses', $plugin_posttypes, 'wc_order_statuses_processed' );
+
+
+	}
 
 	/**
 	 * WooCommerce PDF Vouchers: gift datepicker format
@@ -239,6 +268,12 @@ class Tmsm_Woocommerce_Customadmin {
 		 * core plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-tmsm-woocommerce-customadmin-loader.php';
+
+		/**
+		 * The class responsible for defining processed status
+		 * of the plugin.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-tmsm-woocommerce-customadmin-processedstatus.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality

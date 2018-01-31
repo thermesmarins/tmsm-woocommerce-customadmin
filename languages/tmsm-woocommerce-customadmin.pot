@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TMSM WooCommerce Custom Admin\n"
-"POT-Creation-Date: 2018-01-31 13:56+0100\n"
+"POT-Creation-Date: 2018-01-31 15:50+0100\n"
 "PO-Revision-Date: 2014-10-24 21:08+0100\n"
 "Last-Translator: Nicolas Mollet <nico.mollet@gmail.com>\n"
 "Language-Team: Nicolas Mollet <nico.mollet@gmail.com>\n"
@@ -55,7 +55,7 @@ msgstr ""
 
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:369
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:413
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:428
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:427
 msgctxt "Order status"
 msgid "Paid"
 msgstr ""
@@ -66,7 +66,7 @@ msgid "On hold"
 msgstr ""
 
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:371
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:430
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:429
 msgctxt "Order status"
 msgid "Completed"
 msgstr ""
@@ -88,32 +88,57 @@ msgstr ""
 
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:378
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:414
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:430
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:429
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:453
 msgctxt "Order status"
 msgid "Shipped"
 msgstr ""
 
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:379
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:431
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:430
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:458
 msgctxt "Order status"
 msgid "Processed"
 msgstr ""
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:428
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:427
 msgctxt "Order status"
 msgid "Processing"
 msgstr ""
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:446
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:465
+msgid "Change status: "
+msgstr ""
+
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:481
 msgid "Mark paid"
 msgstr ""
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:447
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:485
 msgid "Mark shipped"
+msgstr ""
+
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:486
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:516
+msgid "Mark as processed"
+msgstr ""
+
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:505
+msgctxt "Change order status"
+msgid "Ship"
+msgstr ""
+
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:538
+msgid "Status changed to Processed"
 msgstr ""
 
 #: ../includes/class-tmsm-woocommerce-customadmin-install.php:62
 msgid "Orders Manager"
+msgstr ""
+
+#: ../includes/class-tmsm-woocommerce-customadmin-processedstatus.php:21
+#: ../includes/class-tmsm-woocommerce-customadmin-processedstatus.php:46
+msgid "Processed"
 msgstr ""
 
 #: ../public/class-tmsm-woocommerce-customadmin-public.php:217

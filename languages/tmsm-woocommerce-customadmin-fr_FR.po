@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: StormBringer Wordpress theme\n"
-"POT-Creation-Date: 2018-01-31 13:56+0100\n"
-"PO-Revision-Date: 2018-01-31 13:56+0100\n"
+"POT-Creation-Date: 2018-01-31 15:50+0100\n"
+"PO-Revision-Date: 2018-01-31 15:51+0100\n"
 "Last-Translator: \n"
 "Language-Team: Nicolas Mollet <nico.mollet@gmail.com>\n"
 "Language: fr\n"
@@ -54,7 +54,7 @@ msgstr "Attente paiement"
 
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:369
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:413
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:428
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:427
 msgctxt "Order status"
 msgid "Paid"
 msgstr "Payée"
@@ -65,7 +65,7 @@ msgid "On hold"
 msgstr "En attente"
 
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:371
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:430
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:429
 msgctxt "Order status"
 msgid "Completed"
 msgstr "Terminé"
@@ -87,33 +87,58 @@ msgstr "Échouée"
 
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:378
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:414
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:430
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:429
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:453
 msgctxt "Order status"
 msgid "Shipped"
 msgstr "Expédiée"
 
 #: ../admin/class-tmsm-woocommerce-customadmin-admin.php:379
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:431
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:430
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:458
 msgctxt "Order status"
 msgid "Processed"
 msgstr "Terminée"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:428
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:427
 msgctxt "Order status"
 msgid "Processing"
 msgstr "En cours"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:446
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:465
+msgid "Change status: "
+msgstr "Changer de statut&nbsp;:"
+
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:481
 msgid "Mark paid"
 msgstr "Marquer payée"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:447
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:485
 msgid "Mark shipped"
 msgstr "Marquer expédiée"
+
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:486
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:516
+msgid "Mark as processed"
+msgstr "Terminer"
+
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:505
+msgctxt "Change order status"
+msgid "Ship"
+msgstr "Expédier"
+
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:538
+msgid "Status changed to Processed"
+msgstr "Statut changé vers Terminée"
 
 #: ../includes/class-tmsm-woocommerce-customadmin-install.php:62
 msgid "Orders Manager"
 msgstr "Gestionnaire commandes"
+
+#: ../includes/class-tmsm-woocommerce-customadmin-processedstatus.php:21
+#: ../includes/class-tmsm-woocommerce-customadmin-processedstatus.php:46
+msgid "Processed"
+msgstr "Terminée"
 
 #: ../public/class-tmsm-woocommerce-customadmin-public.php:217
 msgctxt "honorific title"

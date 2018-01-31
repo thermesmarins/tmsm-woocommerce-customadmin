@@ -415,7 +415,6 @@ TXT;
 		}
 		return $statuses;
 	}
-
 	/**
 	 * Rename order statuses in views filters
 	 *
@@ -435,6 +434,43 @@ TXT;
 	}
 
 	/**
+	 * Rename order preview actions
+	 *
+	 * @param array $actions
+	 * @param  WC_Order $order Order object.
+	 *
+	 * @return mixed
+	 */
+	function woocommerce_admin_order_preview_actions($actions, $order){
+
+		$status_actions = array();
+
+		$status_actions = @$actions['status']['actions'];
+
+		if (get_option( 'tmsm_woocommerce_vouchers_shippedstatus' ) == 'yes') {
+
+
+			$status_actions['complete']['name'] =  _x( 'Shipped', 'Order status', 'tmsm-woocommerce-customadmin' );
+
+			if ( $order->has_status( array( 'processing', 'completed' , 'complete' ) ) ) {
+				$status_actions['processed'] = array(
+					'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=processed&order_id=' . $order->get_id() ), 'woocommerce-mark-order-status' ),
+					'name'   => _x( 'Processed', 'Order status', 'tmsm-woocommerce-customadmin' ),
+					'action' => 'processed',
+				);
+			}
+		}
+		if ( $status_actions ) {
+			$actions['status'] = array(
+				'group'   => __( 'Change status: ', 'woocommerce' ),
+				'actions' => $status_actions,
+			);
+		}
+
+		return $actions;
+	}
+
+	/**
 	 * Rename bulk actions
 	 *
 	 * @param array $actions
@@ -442,11 +478,130 @@ TXT;
 	 * @return array
 	 */
 	function rename_bulk_actions(array $actions){
+		$actions['mark_processing'] = __( 'Mark paid', 'tmsm-woocommerce-customadmin' );
+
 		if (get_option( 'tmsm_woocommerce_vouchers_shippedstatus' ) == 'yes'){
-			$actions['mark_processing'] = __( 'Mark paid', 'tmsm-woocommerce-customadmin' );
+
 			$actions['mark_completed']  = __( 'Mark shipped', 'tmsm-woocommerce-customadmin' );
+			$bulk_actions['mark_processed'] = __('Mark as processed', 'tmsm-woocommerce-vouchers');
+
 		}
 		return $actions;
+	}
+
+	/**
+	 * Order actions for processed
+	 *
+	 * @param array $actions
+	 * @param WC_Order $order
+	 *
+	 * @return mixed
+	 */
+	function woocommerce_admin_order_actions($actions, $order){
+		//print_r($actions);
+
+		if ( get_option( 'tmsm_woocommerce_vouchers_shippedstatus' ) == 'yes' ) {
+
+			$actions['complete']['name'] = _x( 'Ship', 'Change order status', 'tmsm-woocommerce-customadmin' );
+
+			if ( $order->has_status( array( 'processing', 'completed' ) ) ) {
+
+				// Get Order ID (compatibility all WC versions)
+				$order_id = method_exists( $order, 'get_id' ) ? $order->get_id() : $order->id;
+				// Set the action button
+				$actions['processed'] = array(
+					'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=processed&order_id='
+					                                     . $order_id ),
+						'woocommerce-mark-order-status' ),
+					'name'   => __( 'Mark as processed', 'tmsm-woocommerce-vouchers' ),
+					'action' => "view processed", // keep "view" class for a clean button CSS
+				);
+			}
+		}
+
+
+		return $actions;
+	}
+
+	/**
+	 * Bulk action handler for processed
+	 */
+	function admin_action_mark_processed() {
+
+		// if an array with order IDs is not presented, exit the function
+		if( !isset( $_REQUEST['post'] ) && !is_array( $_REQUEST['post'] ) )
+			return;
+
+		if (get_option( 'tmsm_woocommerce_vouchers_shippedstatus' ) == 'yes'){
+			foreach( $_REQUEST['post'] as $order_id ) {
+				$order = new WC_Order( $order_id );
+				$order_note = __('Status changed to Processed', 'tmsm-woocommerce-vouchers');
+				$order->update_status( 'processed', $order_note, true );
+			}
+
+			// of course using add_query_arg() is not required, you can build your URL inline
+			$location = add_query_arg( array(
+				'post_type' => 'shop_order',
+				'marked_processed' => 1, // marked_processed=1 is just the $_GET variable for notices
+				'changed' => count( $_REQUEST['post'] ), // number of changed orders
+				'ids' => join( $_REQUEST['post'], ',' ),
+				'post_status' => 'all'
+			), 'edit.php' );
+
+			wp_redirect( admin_url( $location ) );
+		}
+
+
+		exit;
+
+	}
+
+	/**
+	 * Action when order goes from processing to processed
+	 *
+	 * @param $order_id int
+	 * @param $order WC_Order
+	 */
+	function status_processing_to_processed($order_id, $order){
+		$order->update_status( 'completed');
+		$order->update_status( 'processed');
+	}
+
+	/**
+	 * Action when order goes from completed to processed
+	 *
+	 * @param $order_id int
+	 * @param $order WC_Order
+	 */
+	function status_completed_to_processed($order_id, $order){
+
+	}
+
+	/**
+	 * Get list of statuses which are consider 'paid'.
+	 *
+	 * @param $statuses array
+	 * @return array
+	 */
+	function woocommerce_order_is_paid_statuses($statuses){
+		$statuses[] = 'processed';
+		return $statuses;
+	}
+
+	/**
+	 * WooCommerce reports with custom statuts processed as paid status
+	 *
+	 * @param $statuses array
+	 *
+	 * @return array
+	 */
+	function woocommerce_reports_order_statuses($statuses){
+		if(isset($statuses)){
+			if(in_array('completed', $statuses) || in_array('processing', $statuses)){
+				array_push( $statuses, 'processed');
+			}
+		}
+		return $statuses;
 	}
 
 }
