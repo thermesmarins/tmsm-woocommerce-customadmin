@@ -128,6 +128,8 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_action( 'woocommerce_order_is_paid_statuses', $plugin_admin, 'woocommerce_order_is_paid_statuses', 10, 1 );
 		$this->loader->add_action( 'woocommerce_reports_order_statuses', $plugin_admin, 'woocommerce_reports_order_statuses', 10, 1 );
 
+		$this->loader->add_action( 'admin_notices', $plugin_admin, 'woothemes_updater_notice');
+
 
 	}
 
