@@ -112,8 +112,8 @@ class Tmsm_Woocommerce_Customadmin {
 
 
 		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'users_columns' );
-		$this->loader->add_action( 'manage_users_custom_column', $plugin_admin, 'users_custom_column' );
-		$this->loader->add_filter( 'manage_users_sortable_columns', $plugin_admin, 'manage_users_sortable_columns' );
+		$this->loader->add_action( 'manage_users_custom_column', $plugin_admin, 'users_custom_column', 10, 3 );
+		$this->loader->add_filter( 'manage_users_sortable_columns', $plugin_admin, 'users_sortable_columns', 10, 1 );
 		$this->loader->add_filter( 'woocommerce_admin_order_actions', $plugin_admin, 'admin_order_actions', 10, 2 );
 		$this->loader->add_filter( 'wc_order_statuses', $plugin_admin, 'rename_order_statuses', 10, 1 );
 		$this->loader->add_filter( 'bulk_actions-edit-shop_order', $plugin_admin, 'rename_bulk_actions', 50, 1 );
@@ -128,7 +128,7 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_action( 'woocommerce_order_is_paid_statuses', $plugin_admin, 'woocommerce_order_is_paid_statuses', 10, 1 );
 		$this->loader->add_action( 'woocommerce_reports_order_statuses', $plugin_admin, 'woocommerce_reports_order_statuses', 10, 1 );
 
-		$this->loader->add_action( 'admin_notices', $plugin_admin, 'woothemes_updater_notice');
+		remove_action( 'admin_notices', 'woothemes_updater_notice');
 
 
 	}

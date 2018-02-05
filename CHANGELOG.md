@@ -1,3 +1,6 @@
+### Unreleased ###
+* Fix users sortable column
+
 ### 1.1.1: January 31st, 2018
 * Fix actions for processed
 
