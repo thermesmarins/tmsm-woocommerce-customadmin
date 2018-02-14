@@ -111,6 +111,9 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_filter( 'admin_head', $plugin_admin, 'order_export', 999 );
 
 
+		$this->loader->add_filter( 'display_post_states', $plugin_admin, 'polylang_display_post_states_language' );
+
+
 		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'users_columns' );
 		$this->loader->add_action( 'manage_users_custom_column', $plugin_admin, 'users_custom_column', 10, 3 );
 		$this->loader->add_filter( 'manage_users_sortable_columns', $plugin_admin, 'users_sortable_columns', 10, 1 );

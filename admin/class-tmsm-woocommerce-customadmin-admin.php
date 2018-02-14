@@ -125,6 +125,28 @@ class Tmsm_Woocommerce_Customadmin_Admin {
 	}
 
 	/**
+	 * Polylang: Display a country flag or the name of the language as a "post state"
+	 *
+	 * @param array    $post_states An array of post display states.
+	 * @param \WP_Post $post        The current post object.
+	 *
+	 * @return array A filtered array of post display states.
+	 */
+	function polylang_display_post_states_language( $post_states, $post ) {
+		if( is_plugin_active( 'polylang/polylang.php' ) ){
+			foreach(get_the_terms( $post, 'language' ) as $language){
+				if(file_exists(POLYLANG_DIR . '/flags/' . $language->slug . '.png')){
+					$post_states['polylang'] = '<img src="data:image/png;base64,' . base64_encode( file_get_contents( POLYLANG_DIR . '/flags/' . $language->slug . '.png' ) ).'">';
+				}
+				else{
+					$post_states['polylang'] = $language->name;
+				}
+			}
+		}
+		return $post_states;
+	}
+
+	/**
 	 * Color badges
 	 */
 	function color_badges() {
