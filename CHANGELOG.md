@@ -1,4 +1,5 @@
 ### Unreleased ###
+* Polylang post state flags 
 * Fix users sortable column
 
 ### 1.1.1: January 31st, 2018
