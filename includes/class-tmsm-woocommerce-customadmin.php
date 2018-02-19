@@ -69,7 +69,7 @@ class Tmsm_Woocommerce_Customadmin {
 	public function __construct() {
 
 		$this->plugin_name = 'tmsm-woocommerce-customadmin';
-		$this->version     = '1.1.1';
+		$this->version     = '1.1.2';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -110,6 +110,7 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_filter( 'admin_head', $plugin_admin, 'menu_customers', 999 );
 		$this->loader->add_filter( 'admin_head', $plugin_admin, 'order_export', 999 );
 
+		$this->loader->add_filter( 'admin_menu', $plugin_admin, 'menu_mailjet', 999 );
 
 		$this->loader->add_filter( 'display_post_states', $plugin_admin, 'polylang_display_post_states_language', 10, 2 );
 

@@ -147,6 +147,22 @@ class Tmsm_Woocommerce_Customadmin_Admin {
 	}
 
 	/**
+	 *  Mailjet: Move admin menu to submenu of Settings
+	 */
+	function menu_mailjet(){
+
+		add_submenu_page( 'options-general.php',
+			__( 'Change your mailjet settings', 'wp-mailjet' ),
+			__( 'Mailjet', 'wp-mailjet' ),
+			'read',
+			'wp_mailjet_options_top_menu',
+			'manage_options'
+		);
+
+		remove_menu_page('wp_mailjet_options_top_menu');
+	}
+
+	/**
 	 * Color badges
 	 */
 	function color_badges() {

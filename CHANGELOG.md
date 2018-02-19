@@ -1,6 +1,9 @@
 ### Unreleased ###
+
+### 1.1.2: February 19th, 2018
 * Polylang post state flags 
 * Fix users sortable column
+* Mailjet menu moved to submenu of settings
 
 ### 1.1.1: January 31st, 2018
 * Fix actions for processed
