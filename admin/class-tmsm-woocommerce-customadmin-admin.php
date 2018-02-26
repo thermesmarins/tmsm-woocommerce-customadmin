@@ -151,13 +151,17 @@ class Tmsm_Woocommerce_Customadmin_Admin {
 	 */
 	function menu_mailjet(){
 
-		add_submenu_page( 'options-general.php',
-			__( 'Change your mailjet settings', 'wp-mailjet' ),
-			__( 'Mailjet', 'wp-mailjet' ),
-			'read',
-			'wp_mailjet_options_top_menu',
-			'manage_options'
-		);
+		global $current_user;
+		if(user_can($current_user, 'manage_options')){
+			add_submenu_page( 'options-general.php',
+				__( 'Change your mailjet settings', 'wp-mailjet' ),
+				__( 'Mailjet', 'wp-mailjet' ),
+				'read',
+				'wp_mailjet_options_top_menu',
+				'manage_options'
+			);
+		}
+
 
 		remove_menu_page('wp_mailjet_options_top_menu');
 	}
