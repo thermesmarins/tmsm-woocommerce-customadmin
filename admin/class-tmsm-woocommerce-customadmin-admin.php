@@ -134,13 +134,16 @@ class Tmsm_Woocommerce_Customadmin_Admin {
 	 */
 	function polylang_display_post_states_language( $post_states, $post ) {
 		if( is_plugin_active( 'polylang/polylang.php' ) ){
-			foreach(get_the_terms( $post, 'language' ) as $language){
-				if(file_exists(POLYLANG_DIR . '/flags/' . $language->slug . '.png')){
-					$post_states['polylang'] = '<img src="data:image/png;base64,' . base64_encode( file_get_contents( POLYLANG_DIR . '/flags/' . $language->slug . '.png' ) ).'">';
+			if(is_array(get_the_terms( $post, 'language' ))){
+				foreach(get_the_terms( $post, 'language' ) as $language){
+					if(file_exists(POLYLANG_DIR . '/flags/' . $language->slug . '.png')){
+						$post_states['polylang'] = '<img src="data:image/png;base64,' . base64_encode( file_get_contents( POLYLANG_DIR . '/flags/' . $language->slug . '.png' ) ).'">';
+					}
+					else{
+						$post_states['polylang'] = $language->name;
+					}
 				}
-				else{
-					$post_states['polylang'] = $language->name;
-				}
+
 			}
 		}
 		return $post_states;
@@ -272,8 +275,8 @@ TXT;
 		if ( class_exists( 'WC_Order_Export_Admin' ) ):
 			add_submenu_page(
 				'edit.php?post_type=shop_order',
-				__( 'Export Orders', 'woocommerce-order-export' ),
-				__( 'Export Orders', 'woocommerce-order-export' ),
+				__( 'Export Orders', 'woo-order-export-lite' ),
+				__( 'Export Orders', 'woo-order-export-lite' ),
 				'view_woocommerce_reports',
 				'admin.php?page=wc-order-export'
 
@@ -392,12 +395,60 @@ TXT;
 	 */
 	function menu_icons() {
 		echo '<style type="text/css">';
+
+		// WooCommerce
 		echo '#adminmenu #toplevel_page_woocommerce .menu-icon-generic div.wp-menu-image:before{content: "\f174" !important;font-family: "dashicons" !important;}';
 		echo '#adminmenu #menu-posts-shop_order     .menu-icon-shop_order div.wp-menu-image:before{content: "\f174" !important;font-family: "dashicons" !important;}';
 		echo '#adminmenu #menu-posts-shop_coupon    .menu-icon-shop_coupon div.wp-menu-image:before{content: "\f524" !important;font-family: "dashicons" !important;}';
 		echo '#adminmenu #menu-posts-product        .menu-icon-product div.wp-menu-image:before{content: "\f312" !important;font-family: "dashicons" !important;}';
 		echo '#adminmenu #toplevel_page_wc-reports  .menu-icon-generic div.wp-menu-image:before{content: "\f239" !important;font-family: "dashicons" !important; font-size: 20px !important;}';
+
+		// Yoast SEO
+		echo '#adminmenu #toplevel_page_wpseo_dashboard .dashicons-before img{display:none}';
+		echo '#adminmenu #toplevel_page_wpseo_dashboard div.wp-menu-image.svg {';
+		echo ' background-size: 0 !important;';
+		echo '}';
+		echo '#adminmenu #toplevel_page_wpseo_dashboard .wp-has-submenu div.wp-menu-image:before {';
+		echo ' content: "\f239" !important;';
+		echo ' font-family: "dashicons" !important;';
+		echo ' font-size: 20px;';
+		echo ' display: inline-block;';
+		echo '}';
+		echo '#adminmenu #toplevel_page_yst_ga_dashboard .dashicons-before img{display:none}';
+		echo '#adminmenu #toplevel_page_yst_ga_dashboard div.wp-menu-image.svg {';
+		echo ' background-size: 0 !important;';
+		echo '}';
+		echo '#adminmenu #toplevel_page_yst_ga_dashboard .wp-has-submenu div.wp-menu-image:before {';
+		echo ' content: "\f239" !important;';
+		echo ' font-family: "dashicons" !important;';
+		echo ' font-size: 20px;';
+		echo ' display: inline-block;';
+		echo '}';
+
+		// Mailjet
+		echo '#toplevel_page_wp_mailjet_options_top_menu div.wp-menu-image img {display:none}';
+		echo '#toplevel_page_wp_mailjet_options_top_menu div.wp-menu-image:before {';
+		echo ' content: "\f466" !important;';
+		echo ' font-family: "dashicons" !important;';
+		echo '}';
+
+		// Backwpup
+		echo '#adminmenu #toplevel_page_backwpup .dashicons-before img{display:none}';
+		echo '#adminmenu #toplevel_page_backwpup .wp-has-submenu div.wp-menu-image:before {';
+		echo ' content: "\f468" !important;';
+		echo ' font-family: "dashicons" !important;';
+		echo '}';
+
 		echo '</style>';
+	}
+
+	/**
+	 * WP Rocket : redefine plugin name
+	 *
+	 * @return string
+	 */
+	function wprocket_name(){
+		return __( 'Cache', 'godspeed' );
 	}
 
 	/**
@@ -638,7 +689,7 @@ TXT;
 	 * @return array
 	 */
 	function woocommerce_reports_order_statuses($statuses){
-		if(isset($statuses)){
+		if(isset($statuses) && is_array($statuses)){
 			if(in_array('completed', $statuses) || in_array('processing', $statuses)){
 				array_push( $statuses, 'processed');
 			}
