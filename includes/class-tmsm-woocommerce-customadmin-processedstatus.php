@@ -28,26 +28,5 @@ class Tmsm_Woocommerce_Customadmin_Processedstatus {
 		) );
 	}
 
-	/**
-	 * WooCommerce adds news order status
-	 *
-	 * @param $order_statuses
-	 *
-	 * @return array
-	 */
-	function wc_order_statuses_processed( $order_statuses ) {
-		$new_order_statuses = array();
-
-		foreach ( $order_statuses as $key => $status ) {
-
-			$new_order_statuses[ $key ] = $status;
-
-			if ( 'wc-processing' === $key ) {
-				$new_order_statuses['wc-processed'] = __('Processed', 'tmsm-woocommerce-vouchers');
-			}
-		}
-
-		return $new_order_statuses;
-	}
 
 }

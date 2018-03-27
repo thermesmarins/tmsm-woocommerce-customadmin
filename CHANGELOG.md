@@ -1,4 +1,5 @@
 ### Unreleased ###
+* Birthday field in checkout
 
 ### 1.1.2: February 19th, 2018
 * Polylang post state flags 

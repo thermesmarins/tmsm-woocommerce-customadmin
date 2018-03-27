@@ -75,10 +75,7 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->set_locale();
 		$this->register_processedstatus();
 		$this->define_admin_hooks();
-
-		add_action( 'login_redirect', array( $this, 'redirect_shop_managers' ), 100, 3 );
-
-		add_filter( 'woocommerce_checkout_get_value', array( $this, 'checkout_default_values' ), 10, 2 );
+		$this->define_public_hooks();
 
 	}
 
@@ -95,12 +92,12 @@ class Tmsm_Woocommerce_Customadmin {
 
 		$plugin_admin = new Tmsm_Woocommerce_Customadmin_Admin( $this->get_plugin_name(), $this->get_version() );
 
+		// Styles & Scripts
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
+		$this->loader->add_action( 'login_redirect', $plugin_admin, 'redirect_shop_managers', 10, 3 );
 
-
-		$this->loader->add_filter( 'wc_order_statuses', $plugin_admin, 'wc_get_order_statuses', 999 );
 		$this->loader->add_filter( 'admin_head', $plugin_admin, 'color_badges', 999 );
 		$this->loader->add_filter( 'admin_head', $plugin_admin, 'menu_icons', 999 );
 		$this->loader->add_filter( 'admin_head', $plugin_admin, 'hide_woocommerce', 999 );
@@ -124,7 +121,7 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_filter( 'woocommerce_admin_order_date_format', $plugin_admin, 'woocommerce_admin_order_date_format' );
 		$this->loader->add_action( 'woocommerce_admin_process_product_object', $plugin_admin, 'empty_wprocket_cache_on_save_product' );
 		$this->loader->add_filter( 'woocommerce_admin_order_actions', $plugin_admin, 'admin_order_actions', 10, 2 );
-		$this->loader->add_filter( 'wc_order_statuses', $plugin_admin, 'rename_order_statuses', 10, 1 );
+		$this->loader->add_filter( 'wc_order_statuses', $plugin_admin, 'rename_order_statuses', 999, 1 );
 		$this->loader->add_filter( 'bulk_actions-edit-shop_order', $plugin_admin, 'rename_bulk_actions', 50, 1 );
 		$this->loader->add_filter( 'views_edit-shop_order', $plugin_admin, 'rename_views_filters', 50, 1 );
 		$this->loader->add_filter( 'woocommerce_admin_order_preview_actions', $plugin_admin, 'woocommerce_admin_order_preview_actions', 50, 2 );
@@ -136,11 +133,42 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_action( 'woocommerce_reports_order_statuses', $plugin_admin, 'woocommerce_reports_order_statuses', 10, 1 );
 		remove_action( 'admin_notices', 'woothemes_updater_notice');
 
+		// Options
+		$this->loader->add_filter( 'woocommerce_get_settings_checkout', $plugin_admin, 'woocommerce_get_settings_checkout_birthday', 10, 2 );
+
+	}
+
+
+	/**
+	 * Register all of the hooks related to the public area functionality
+	 * of the plugin.
+	 *
+	 * @since    1.1.3
+	 *
+	 * @access   private
+	 */
+	private function define_public_hooks() {
+
+		$plugin_public = new Tmsm_Woocommerce_Customadmin_Public( $this->get_plugin_name(), $this->get_version() );
+
+		// Styles & Scripts
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+		// WooCommerce title & birthday fields
+		$this->loader->add_filter( 'mailchimp_sync_user_mergetags', $plugin_public, 'mailchimp_sync_user_mergetags', 10, 2 );
+		$this->loader->add_filter( 'woocommerce_checkout_get_value', $plugin_public, 'checkout_default_values_user', 10, 2 );
+		$this->loader->add_filter( 'woocommerce_checkout_get_value', $plugin_public, 'checkout_default_values_birthday', 20, 2 );
+		$this->loader->add_filter( 'woocommerce_billing_fields', $plugin_public, 'billing_fields_title', 10, 1 );
+		$this->loader->add_filter( 'woocommerce_billing_fields', $plugin_public, 'billing_fields_birthday', 20, 1 );
+		$this->loader->add_action( 'woocommerce_checkout_update_order_meta', $plugin_public, 'checkout_update_order_meta_title', 10, 2 );
+		$this->loader->add_action( 'woocommerce_checkout_update_order_meta', $plugin_public, 'checkout_update_order_meta_birthday', 20, 2 );
+		$this->loader->add_action( 'woocommerce_customer_object_updated_props', $plugin_public, 'woocommerce_customer_object_updated_props_birthday', 20, 2 );
 
 	}
 
 	/**
-	 * Define the locale for this plugin for internationalization.
+	 * Define the processed status for WooCommerce
 	 *
 	 * Uses the Tmsm_Woocommerce_Vouchers_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
@@ -153,105 +181,7 @@ class Tmsm_Woocommerce_Customadmin {
 		$plugin_posttypes = new Tmsm_Woocommerce_Customadmin_Processedstatus();
 
 		$this->loader->add_filter( 'init', $plugin_posttypes, 'register_post_status_processed' );
-		$this->loader->add_filter( 'wc_order_statuses', $plugin_posttypes, 'wc_order_statuses_processed' );
 
-
-	}
-
-	/**
-	 * WooCommerce PDF Vouchers: gift datepicker format
-	 *
-	 * @param $date_format
-	 *
-	 * @return string
-	 *
-	 */
-	function woo_vou_recipient_giftdate_format( $date_format ) {
-		return 'dd-mm-yy';
-	}
-
-	/**
-	 * WooCommerce PDF Vouchers: gift date format in cart
-	 *
-	 * @param $date
-	 *
-	 * @return string
-	 */
-	function woo_vou_get_cart_date_format( $date ) {
-
-		if ( strpos( $date, '-' ) ) {
-
-			// Explode $date to get date, month and year parameters
-			$date_arr = explode( '-', $date );
-
-			$dateObj = DateTime::createFromFormat( '!M', $date_arr[1] ); // Check month for string format
-			if ( ! empty( $dateObj ) ) {
-				$date_arr[1] = $dateObj->format( 'm' );
-				$date        = implode( '-', $date_arr );
-			}
-
-		}
-
-		return $date;
-	}
-
-	/**
-	 * Shop Managers: redirect to orders
-	 *
-	 * @param $redirect_to
-	 * @param $request
-	 * @param $user
-	 *
-	 * @return string
-	 */
-	function redirect_shop_managers( $redirect_to, $request, $user ) {
-
-		$redirect_to_orders = admin_url( 'edit.php?post_type=shop_order' );
-
-		//is there a user to check?
-		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-			// Default redirect for admins
-			if ( in_array( 'administrator', $user->roles ) || in_array( 'editor', $user->roles ) || in_array( 'contributor', $user->roles )
-			     || in_array( 'author', $user->roles )
-			) {
-				return $redirect_to;
-			} elseif ( in_array( 'shop_manager', $user->roles ) || in_array( 'shop_order_manager', $user->roles ) ) {
-				// Redirect shop_manager and shop_order_manager to the orders page
-				return $redirect_to_orders;
-			} else {
-				// Default redirect for other roles
-				return $redirect_to;
-			}
-		} else {
-			// Default redirect for no role
-			return $redirect_to;
-		}
-	}
-
-	/**
-	 * Default checkout values
-	 *
-	 * @param $input
-	 * @param $key
-	 *
-	 * @return string
-	 */
-	function checkout_default_values( $input, $key ) {
-		global $current_user;
-		switch ( $key ) :
-			case 'billing_first_name':
-			case 'shipping_first_name':
-				return $current_user->first_name;
-				break;
-
-			case 'billing_last_name':
-			case 'shipping_last_name':
-				return $current_user->last_name;
-				break;
-			case 'billing_email':
-				return $current_user->user_email;
-				break;
-		endswitch;
 	}
 
 	/**
@@ -262,6 +192,7 @@ class Tmsm_Woocommerce_Customadmin {
 	 * - Tmsm_Woocommerce_Customadmin_Loader. Orchestrates the hooks of the plugin.
 	 * - Tmsm_Woocommerce_Customadmin_i18n. Defines internationalization functionality.
 	 * - Tmsm_Woocommerce_Customadmin_Admin. Defines all hooks for the admin area.
+	 * - Tmsm_Woocommerce_Customadmin_Public. Defines all hooks for the public area.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -294,6 +225,11 @@ class Tmsm_Woocommerce_Customadmin {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-tmsm-woocommerce-customadmin-admin.php';
 
+		/**
+		 * The class responsible for defining all actions that occur in the public area.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-tmsm-woocommerce-customadmin-public.php';
+
 		$this->loader = new Tmsm_Woocommerce_Customadmin_Loader();
 
 	}
@@ -314,7 +250,6 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
 	}
-
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.

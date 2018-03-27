@@ -1,6 +1,5 @@
 /**
- * All of the CSS for your public-facing functionality should be
- * included in this file.
+ * Title field
  */
 
 .woocommerce-billing-fields .billing-title *,
@@ -21,3 +20,4 @@
 {
   font-weight: normal;
 }
+

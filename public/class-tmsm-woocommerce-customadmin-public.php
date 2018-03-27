@@ -4,7 +4,7 @@
  * The public-facing functionality of the plugin.
  *
  * @link       https://github.com/nicomollet
- * @since      1.0.0
+ * @since      1.1.3
  *
  * @package    Tmsm_Woocommerce_Customadmin
  * @subpackage Tmsm_Woocommerce_Customadmin/public
@@ -70,18 +70,6 @@ class Tmsm_Woocommerce_Customadmin_Public {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Tmsm_Woocommerce_Customadmin_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Tmsm_Woocommerce_Customadmin_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/tmsm-woocommerce-customadmin-public.css', array(), $this->version, 'all' );
 
 	}
@@ -93,102 +81,26 @@ class Tmsm_Woocommerce_Customadmin_Public {
 	 */
 	public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Tmsm_Woocommerce_Customadmin_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Tmsm_Woocommerce_Customadmin_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+		wp_enqueue_script( 'jquery-mask', plugin_dir_url( __FILE__ ) . 'js/jquery.mask.min.js', array( 'jquery' ), null, true );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tmsm-woocommerce-customadmin-public.js', array( 'jquery', 'jquery-mask' ), null, true );
 
-		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tmsm-golf-features-public.js', array( 'jquery' ), $this->version, false );
+		// Localize the script with new data
+		$translation_array = array(
+			'birthdayformat' => _x( 'mm/dd/yyyy', 'birthday date format', 'tmsm-woocommerce-customadmin' ),
+		);
+		wp_localize_script( $this->plugin_name, 'tmsm_woocommerce_customeadmin_i18n', $translation_array );
 
 	}
 
-
 	/**
-	 * WooCommerce PDF Vouchers: gift datepicker format
-	 *
-	 * @param $date_format
-	 *
-	 * @return string
-	 *
-	 */
-	function woo_vou_recipient_giftdate_format( $date_format ) {
-		return 'dd-mm-yy';
-	}
-
-	/**
-	 * WooCommerce PDF Vouchers: gift date format in cart
-	 *
-	 * @param $date
-	 *
-	 * @return string
-	 */
-	function woo_vou_get_cart_date_format( $date ) {
-
-		if ( strpos( $date, '-' ) ) {
-
-			// Explode $date to get date, month and year parameters
-			$date_arr = explode( '-', $date );
-
-			$dateObj = DateTime::createFromFormat( '!M', $date_arr[1] ); // Check month for string format
-			if ( ! empty( $dateObj ) ) {
-				$date_arr[1] = $dateObj->format( 'm' );
-				$date        = implode( '-', $date_arr );
-			}
-
-		}
-
-		return $date;
-	}
-
-	/**
-	 * Shop Managers: redirect to orders
-	 *
-	 * @param $redirect_to
-	 * @param $request
-	 * @param $user
-	 *
-	 * @return string
-	 */
-	function redirect_shop_managers( $redirect_to, $request, $user ) {
-
-		$redirect_to_orders = admin_url( 'edit.php?post_type=shop_order' );
-
-		//is there a user to check?
-		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-			// Default redirect for admins
-			if ( in_array( 'administrator', $user->roles ) || in_array( 'editor', $user->roles ) || in_array( 'contributor', $user->roles )
-			     || in_array( 'author', $user->roles )
-			) {
-				return $redirect_to;
-			} elseif ( in_array( 'shop_manager', $user->roles ) || in_array( 'shop_order_manager', $user->roles ) ) {
-				// Redirect shop_manager and shop_order_manager to the orders page
-				return $redirect_to_orders;
-			} else {
-				// Default redirect for other roles
-				return $redirect_to;
-			}
-		} else {
-			// Default redirect for no role
-			return $redirect_to;
-		}
-	}
-
-	/**
-	 * Default checkout values
+	 * Default checkout values: user firstname / lastname
 	 *
 	 * @param $input
 	 * @param $key
 	 *
-	 * @return string
+	 * @return null|string
 	 */
-	function checkout_default_values( $input, $key ) {
+	function checkout_default_values_user( $input, $key ) {
 		global $current_user;
 		switch ( $key ) :
 			case 'billing_first_name':
@@ -204,6 +116,35 @@ class Tmsm_Woocommerce_Customadmin_Public {
 				return $current_user->user_email;
 				break;
 		endswitch;
+
+	}
+
+	/**
+	 * Default checkout values: birthday
+	 *
+	 * @param $input
+	 * @param $key
+	 *
+	 * @var WP_User $current_user
+	 *
+	 * @return null|string
+	 */
+	function checkout_default_values_birthday( $input, $key ) {
+		global $current_user;
+
+		switch ( $key ) :
+			case 'billing_birthday':
+				if( method_exists('DateTime', 'createFromFormat') && !empty($current_user->ID)){
+					$objdate = DateTime::createFromFormat( _x( 'Y-m-d', 'birthday date format conversion', 'tmsm-woocommerce-customadmin' ),
+						get_user_meta($current_user->ID, 'billing_birthday', true) );
+					if( $objdate instanceof DateTime ){
+						return $objdate->format(_x( 'm/d/Y', 'birthday date format', 'tmsm-woocommerce-customadmin' ));
+					}
+				}
+				return '';
+				break;
+		endswitch;
+
 	}
 
 	/**
@@ -222,21 +163,22 @@ class Tmsm_Woocommerce_Customadmin_Public {
 	}
 
 	/**
-	 * Add title & birthdate to checkout page
+	 * Add title field to checkout page
 	 *
 	 * @param $fields
 	 *
 	 * @return mixed
 	 */
-	function billing_fields_title_birthday( $fields ) {
+	function billing_fields_title( $fields ) {
 
 		$new_fields['billing_title']  = array(
 			'type'            => 'radio',
-			'label'          => _x('Title', 'honorific title', 'tmsm-woocommerce-customadmin'),
+			'label'          => _x('Title', 'honorific title label', 'tmsm-woocommerce-customadmin'),
 			'required'       => true,
 			'class'          => ['billing-title'],
 			'label_class'          => ['control-label'],
 			'input_class'          => [''],
+			'priority' => -100,
 			//'custom_attributes'          => ['style' => 'display:inline-block'],
 			'options'     => self::billing_title_options()
 		);
@@ -245,41 +187,120 @@ class Tmsm_Woocommerce_Customadmin_Public {
 		return $fields;
 	}
 
+	/**
+	 * Add birthday fields to checkout page
+	 *
+	 * @param $fields
+	 *
+	 * @return mixed
+	 */
+	function billing_fields_birthday( $fields ) {
+
+		$new_fields['billing_birthday'] = array(
+			'type'        => 'text',
+			'label'       => _x( 'Birthday', 'birthday label', 'tmsm-woocommerce-customadmin' ),
+			//'description'          => _x('Day', 'birthday day', 'tmsm-woocommerce-customadmin'),
+			'placeholder' => _x( 'mm/dd/yyyy', 'birthday placeholder', 'tmsm-woocommerce-customadmin' ),
+			'required'    => false,
+			'class'       => [ 'billing-birthday' ],
+			'label_class' => [ 'control-label' ],
+			'input_class' => [ '' ],
+			'priority'    => 200,
+			'autocomplete'    => 'bday',
+			//'custom_attributes'          => ['style' => 'display:inline-block'],
+		);
+
+		$fields = array_merge($new_fields, $fields );
+		return $fields;
+	}
 
 	/**
-	 * Update order meta fields: title & birthdate
+	 * Update order meta fields: title
 	 *
 	 * @param $order_id integer
 	 * @param $posted array
 	 */
-	function checkout_update_order_meta_title_birthday( $order_id, $posted ){
+	function checkout_update_order_meta_title( $order_id, $posted ){
+
 		if( isset( $posted['billing_title'] ) ) {
 			update_post_meta( $order_id, '_billing_title', sanitize_text_field( $posted['billing_title'] ) );
 		}
+
 	}
 
+	/**
+	 * Update order meta fields: birthday
+	 *
+	 * @param $order_id integer
+	 * @param $posted array
+	 */
+	function checkout_update_order_meta_birthday( $order_id, $posted ){
+
+		if( isset( $posted['billing_birthday'] ) ) {
+			if( method_exists('DateTime', 'createFromFormat') ){
+				$objdate = DateTime::createFromFormat( _x( 'm/d/Y', 'birthday date format conversion', 'tmsm-woocommerce-customadmin' ),
+					sanitize_text_field( $posted['billing_birthday'] ) );
+				if( $objdate instanceof DateTime ){
+					update_post_meta( $order_id, '_billing_birthday', sanitize_text_field( $objdate->format('Y-m-d') ) );
+				}
+			}
+		}
+
+	}
 
 	/**
-	 * Mailchimp sync user merge tags: PRENOM, NOM, CIV
+	 * Mailchimp sync user merge tags: PRENOM, NOM, CIV, DDN
 	 *
-	 * @param WP_User $user
 	 * @param array $merge_vars
+	 * @param WP_User $user
 	 *
 	 * @return array
 	 */
-	function mailchimp_sync_user_mergetags($user, $merge_vars){
+	function mailchimp_sync_user_mergetags($merge_vars, $user){
 
+		// Firstname & Lastname
 		$merge_vars['PRENOM'] = ( trim( get_user_meta( $user->ID, 'billing_first_name', true )) ? trim( get_user_meta( $user->ID, 'billing_first_name',
 			true ) ) : trim( $user->first_name ) );
 		$merge_vars['NOM']    = ( trim( get_user_meta( $user->ID, 'billing_last_name', true )) ? trim( get_user_meta( $user->ID, 'billing_last_name',
 			true ) ) : trim( $user->last_name ) );
 
+
 		$billing_title_value = get_user_meta($user->ID, 'billing_title', true);
 		$billing_title_options = self::billing_title_options();
 
+		// Title
 		if($billing_title_value && isset($billing_title_options[$billing_title_value])){
-			$merge_vars['CIV'] = $billing_title_options[$billing_title_value];
+			$merge_vars['CIV'] = @$billing_title_options[$billing_title_value];
 		}
+
+		// Birthday
+		$birthdayvalue = trim( get_user_meta( $user->ID, 'billing_birthday', true ));
+		if ( ! empty( $birthdayvalue ) ) {
+			$objdate = DateTime::createFromFormat( _x( 'Y-m-d', 'birthday date format conversion', 'tmsm-woocommerce-customadmin' ),
+				sanitize_text_field( $birthdayvalue ) );
+			if ( $objdate instanceof DateTime ) {
+				$merge_vars['DDN'] = $objdate->format( 'm/d' ); // Fixed format by Mailchimp
+			}
+		}
+
 		return $merge_vars;
+	}
+
+	/**
+	 * Update birthday value in user meta to format YYYY-MM-DD
+	 *
+	 * @param WC_Customer $customer
+	 * @param $updated_props
+	 */
+	function woocommerce_customer_object_updated_props_birthday($customer, $updated_props){
+
+		if( method_exists('DateTime', 'createFromFormat') && !empty($customer->get_meta('billing_birthday', true))){
+			$objdate = DateTime::createFromFormat( _x( 'm/d/Y', 'birthday date format conversion', 'tmsm-woocommerce-customadmin' ),
+				sanitize_text_field( $customer->get_meta('billing_birthday', true) ) );
+			if( $objdate instanceof DateTime ){
+				$customer->update_meta_data('billing_birthday', sanitize_text_field( $objdate->format('Y-m-d') ));
+			}
+		}
+
 	}
 }

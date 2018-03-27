@@ -143,7 +143,6 @@ class Tmsm_Woocommerce_Customadmin_Admin {
 						$post_states['polylang'] = $language->name;
 					}
 				}
-
 			}
 		}
 		return $post_states;
@@ -165,8 +164,40 @@ class Tmsm_Woocommerce_Customadmin_Admin {
 			);
 		}
 
-
 		remove_menu_page('wp_mailjet_options_top_menu');
+	}
+
+	/**
+	 * Shop Managers: redirect to orders
+	 *
+	 * @param $redirect_to
+	 * @param $request
+	 * @param $user
+	 *
+	 * @return string
+	 */
+	function redirect_shop_managers( $redirect_to, $request, $user ) {
+
+		$redirect_to_orders = admin_url( 'edit.php?post_type=shop_order' );
+
+		//is there a user to check?
+		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+			// Default redirect for admins
+			if ( in_array( 'administrator', $user->roles ) || in_array( 'editor', $user->roles ) || in_array( 'contributor', $user->roles )
+			     || in_array( 'author', $user->roles )
+			) {
+				return $redirect_to;
+			} elseif ( in_array( 'shop_manager', $user->roles ) || in_array( 'shop_order_manager', $user->roles ) ) {
+				// Redirect shop_manager and shop_order_manager to the orders page
+				return $redirect_to_orders;
+			} else {
+				// Default redirect for other roles
+				return $redirect_to;
+			}
+		} else {
+			// Default redirect for no role
+			return $redirect_to;
+		}
 	}
 
 	/**
@@ -454,24 +485,19 @@ TXT;
 	/**
 	 * Custom order statuses
 	 *
-	 * @return mixed
+	 * @param $statuses
+	 *
+	 * @return array
 	 */
-	function wc_get_order_statuses() {
-		$order_statuses = array(
-			'wc-pending'    => _x( 'Pending payment', 'Order status', 'woocommerce' ),
-			'wc-processing' => _x( 'Paid', 'Order status', 'tmsm-woocommerce-customadmin' ),
-			'wc-on-hold'    => _x( 'On hold', 'Order status', 'woocommerce' ),
-			'wc-completed'  => _x( 'Completed', 'Order status', 'woocommerce' ),
-			'wc-cancelled'  => _x( 'Cancelled', 'Order status', 'woocommerce' ),
-			'wc-refunded'   => _x( 'Refunded', 'Order status', 'woocommerce' ),
-			'wc-failed'     => _x( 'Failed', 'Order status', 'woocommerce' )
-		);
+	function rename_order_statuses($statuses){
+
+		$statuses['wc-processing'] = _x( 'Paid', 'Order status', 'tmsm-woocommerce-customadmin' );
 
 		if (get_option( 'tmsm_woocommerce_vouchers_shippedstatus' ) == 'yes'){
-			$order_statuses['wc-completed'] = _x( 'Shipped', 'Order status', 'tmsm-woocommerce-customadmin' );
-			$order_statuses['wc-processed'] = _x( 'Processed', 'Order status', 'tmsm-woocommerce-customadmin' );
+			$statuses['wc-completed'] = _x( 'Shipped', 'Order status', 'tmsm-woocommerce-customadmin' );
+			$statuses['wc-processed'] = _x( 'Processed', 'Order status', 'tmsm-woocommerce-customadmin' );
 		}
-		return $order_statuses;
+		return $statuses;
 	}
 
 	/**
@@ -494,20 +520,6 @@ TXT;
 		return $actions;
 	}
 
-
-	/**
-	 * Rename order statuses
-	 * @param $statuses array
-	 *
-	 * @return array
-	 */
-	function rename_order_statuses($statuses){
-		if (get_option( 'tmsm_woocommerce_vouchers_shippedstatus' ) == 'yes'){
-			$statuses['wc-processing'] = _x( 'Paid', 'Order status', 'tmsm-woocommerce-customadmin' );
-			$statuses['wc-completed'] = _x( 'Shipped', 'Order status', 'tmsm-woocommerce-customadmin' );
-		}
-		return $statuses;
-	}
 	/**
 	 * Rename order statuses in views filters
 	 *
@@ -576,7 +588,7 @@ TXT;
 		if (get_option( 'tmsm_woocommerce_vouchers_shippedstatus' ) == 'yes'){
 
 			$actions['mark_completed']  = __( 'Mark shipped', 'tmsm-woocommerce-customadmin' );
-			$actions['mark_processed'] = __('Mark as processed', 'tmsm-woocommerce-vouchers');
+			$actions['mark_processed'] = __('Mark as processed', 'tmsm-woocommerce-customadmin');
 
 		}
 		return $actions;
@@ -606,7 +618,7 @@ TXT;
 					'url'    => wp_nonce_url( admin_url( 'admin-ajax.php?action=woocommerce_mark_order_status&status=processed&order_id='
 					                                     . $order_id ),
 						'woocommerce-mark-order-status' ),
-					'name'   => __( 'Mark as processed', 'tmsm-woocommerce-vouchers' ),
+					'name'   => __( 'Mark as processed', 'tmsm-woocommerce-customadmin' ),
 					'action' => "view processed", // keep "view" class for a clean button CSS
 				);
 			}
@@ -628,7 +640,7 @@ TXT;
 		if (get_option( 'tmsm_woocommerce_vouchers_shippedstatus' ) == 'yes'){
 			foreach( $_REQUEST['post'] as $order_id ) {
 				$order = new WC_Order( $order_id );
-				$order_note = __('Status changed to Processed', 'tmsm-woocommerce-vouchers');
+				$order_note = __('Status changed to Processed', 'tmsm-woocommerce-customadmin');
 				$order->update_status( 'processed', $order_note, true );
 			}
 
@@ -697,4 +709,49 @@ TXT;
 		return $statuses;
 	}
 
+
+	/**
+	 * Add birthday option to checkout tab
+	 *
+	 * @param $settings
+	 * @param $current_section
+	 *
+	 * @return array
+	 */
+	function woocommerce_get_settings_checkout_birthday( $settings, $current_section ) {
+
+		$new_settings = array(
+
+			array(
+				'title'         => __( 'Checkout fields', 'woocommerce' ),
+				'desc'          => __( 'Title field', 'woocommerce' ),
+				'id'            => 'tmsm_woocommerce_checkout_title',
+				'default'       => 'no',
+				'type'          => 'checkbox',
+				'checkboxgroup' => 'start',
+				'autoload'      => false,
+			),
+			array(
+				'desc'          => __( 'Birthday field', 'woocommerce' ),
+				'id'            => 'tmsm_woocommerce_checkout_birthday',
+				'default'       => 'no',
+				'type'          => 'checkbox',
+				'checkboxgroup' => 'end',
+				'autoload'      => false,
+			)
+		);
+
+
+		$offset = isset( $settings['unforce_ssl_checkout'] ) ? 2 : 1;
+		// Add new settings to the existing ones.
+		foreach ( $settings as $key => $setting ) {
+			if ( isset( $setting['id'] ) && 'woocommerce_checkout_page_id' == $setting['id'] ) {
+				array_splice( $settings, $key + $offset, 0, $new_settings );
+				break;
+			}
+		}
+
+		return $settings;
+
+	}
 }
