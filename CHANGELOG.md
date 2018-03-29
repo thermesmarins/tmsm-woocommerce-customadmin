@@ -1,5 +1,5 @@
 ### Unreleased ###
-
+* Fix Checkout CSS for OceanWP compatibility
 
 ### 1.1.3: March 28th, 2018
 * Birthday field in checkout

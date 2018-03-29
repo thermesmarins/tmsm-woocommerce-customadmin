@@ -1,9 +1,8 @@
 /**
  * Title field
  */
-
-.woocommerce-billing-fields .billing-title *,
-.woocommerce-address-fields .billing-title *
+.woocommerce .woocommerce-checkout #customer_details .woocommerce-billing-fields p.form-row label,
+.woocommerce .woocommerce-checkout #customer_details .woocommerce-billing-fields p.form-row input
 {
   display: inline-block;
 }
