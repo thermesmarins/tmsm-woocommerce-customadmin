@@ -1,5 +1,11 @@
 ### Unreleased ###
+
+
+### 1.1.3: March 28th, 2018
 * Birthday field in checkout
+* Birthday field sync with Mailchimp
+* More menu icons
+* Fix error with polylang post states
 
 ### 1.1.2: February 19th, 2018
 * Polylang post state flags 
