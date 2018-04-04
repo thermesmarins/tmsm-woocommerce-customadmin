@@ -479,7 +479,7 @@ TXT;
 	 * @return string
 	 */
 	function wprocket_name(){
-		return __( 'Cache', 'godspeed' );
+		return __( 'Cache', 'tmsm-woocommerce-customadmin' );
 	}
 
 	/**
@@ -723,8 +723,8 @@ TXT;
 		$new_settings = array(
 
 			array(
-				'title'         => __( 'Checkout fields', 'woocommerce' ),
-				'desc'          => __( 'Title field', 'woocommerce' ),
+				'title'         => __( 'Checkout fields', 'tmsm-woocommerce-customadmin' ),
+				'desc'          => __( 'Title field', 'tmsm-woocommerce-customadmin' ),
 				'id'            => 'tmsm_woocommerce_checkout_title',
 				'default'       => 'no',
 				'type'          => 'checkbox',
@@ -732,7 +732,7 @@ TXT;
 				'autoload'      => false,
 			),
 			array(
-				'desc'          => __( 'Birthday field', 'woocommerce' ),
+				'desc'          => __( 'Birthday field', 'tmsm-woocommerce-customadmin' ),
 				'id'            => 'tmsm_woocommerce_checkout_birthday',
 				'default'       => 'no',
 				'type'          => 'checkbox',
