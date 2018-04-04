@@ -1,5 +1,9 @@
 ### Unreleased ###
+
+### 1.1.4: April 4th, 2018
 * Fix Checkout CSS for OceanWP compatibility
+* Fix i18n text domain
+* Option to disable checkout fields 
 
 ### 1.1.3: March 28th, 2018
 * Birthday field in checkout

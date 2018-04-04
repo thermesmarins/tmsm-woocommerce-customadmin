@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: StormBringer Wordpress theme\n"
-"POT-Creation-Date: 2018-03-29 09:07+0200\n"
-"PO-Revision-Date: 2018-03-29 09:07+0200\n"
+"POT-Creation-Date: 2018-04-04 11:52+0200\n"
+"PO-Revision-Date: 2018-04-04 16:21+0200\n"
 "Last-Translator: \n"
 "Language-Team: Nicolas Mollet <nico.mollet@gmail.com>\n"
 "Language: fr\n"
@@ -174,7 +174,7 @@ msgstr "Anniversaire"
 #: ../public/class-tmsm-woocommerce-customadmin-public.php:203
 msgctxt "birthday placeholder"
 msgid "mm/dd/yyyy"
-msgstr "dd/mm/aaaa"
+msgstr "jj/mm/aaaa"
 
 #: ../public/class-tmsm-woocommerce-customadmin-public.php:241
 #: ../public/class-tmsm-woocommerce-customadmin-public.php:298
