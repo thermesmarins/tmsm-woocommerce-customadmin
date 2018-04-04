@@ -1,4 +1,5 @@
 ### Unreleased ###
+* Plugin icon asset (TMSM logo)
 
 ### 1.1.4: April 4th, 2018
 * Fix Checkout CSS for OceanWP compatibility
