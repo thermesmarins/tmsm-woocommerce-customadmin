@@ -106,6 +106,7 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_filter( 'admin_head', $plugin_admin, 'order_export', 999 );
 
 		$this->loader->add_filter( 'admin_menu', $plugin_admin, 'menu_mailjet', 999 );
+		$this->loader->add_filter( 'admin_menu', $plugin_admin, 'menu_discounts', 999 );
 
 		$this->loader->add_filter( 'get_rocket_option_wl_plugin_name', $plugin_admin, 'wprocket_name', 10 );
 

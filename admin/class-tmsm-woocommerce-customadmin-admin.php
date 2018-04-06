@@ -168,6 +168,26 @@ class Tmsm_Woocommerce_Customadmin_Admin {
 	}
 
 	/**
+	 *  Pricing & Discounts: Move admin menu to submenu of Products
+	 */
+	function menu_discounts(){
+
+		if(class_exists('RP_WCDPD')){
+			add_submenu_page(
+				'edit.php?post_type=product',
+				__('Pricing & Discounts', 'rp_wcdpd'),
+				__('Pricing & Discounts', 'rp_wcdpd'),
+				RP_WCDPD::get_admin_capability(),
+				'rp_wcdpd_settings',
+				array('RP_WCDPD_Settings', 'print_settings_page')
+			);
+		}
+		remove_submenu_page('woocommerce', 'rp_wcdpd_settings');
+	}
+
+
+
+	/**
 	 * Shop Managers: redirect to orders
 	 *
 	 * @param $redirect_to

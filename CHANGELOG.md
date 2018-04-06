@@ -1,5 +1,6 @@
 ### Unreleased ###
 * Plugin icon asset (TMSM logo)
+* Pricing & Discounts: Move admin menu to submenu of Products
 
 ### 1.1.4: April 4th, 2018
 * Fix Checkout CSS for OceanWP compatibility
