@@ -121,6 +121,8 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_filter( 'woocommerce_enable_admin_help_tab', $plugin_admin, 'woocommerce_enable_admin_help_tab' );
 		$this->loader->add_filter( 'woocommerce_admin_order_date_format', $plugin_admin, 'woocommerce_admin_order_date_format' );
 		$this->loader->add_action( 'woocommerce_admin_process_product_object', $plugin_admin, 'empty_wprocket_cache_on_save_product' );
+
+
 		$this->loader->add_filter( 'woocommerce_admin_order_actions', $plugin_admin, 'admin_order_actions', 10, 2 );
 		$this->loader->add_filter( 'wc_order_statuses', $plugin_admin, 'rename_order_statuses', 999, 1 );
 		$this->loader->add_filter( 'bulk_actions-edit-shop_order', $plugin_admin, 'rename_bulk_actions', 50, 1 );
@@ -132,6 +134,7 @@ class Tmsm_Woocommerce_Customadmin {
 		$this->loader->add_action( 'woocommerce_order_status_completed_to_processed', $plugin_admin, 'status_completed_to_processed', 10, 2 );
 		$this->loader->add_action( 'woocommerce_order_is_paid_statuses', $plugin_admin, 'woocommerce_order_is_paid_statuses', 10, 1 );
 		$this->loader->add_action( 'woocommerce_reports_order_statuses', $plugin_admin, 'woocommerce_reports_order_statuses', 10, 1 );
+
 		remove_action( 'admin_notices', 'woothemes_updater_notice');
 
 		// Options
