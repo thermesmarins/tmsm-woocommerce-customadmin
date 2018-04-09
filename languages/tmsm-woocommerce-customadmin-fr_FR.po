@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: StormBringer Wordpress theme\n"
-"POT-Creation-Date: 2018-04-04 11:52+0200\n"
-"PO-Revision-Date: 2018-04-04 16:21+0200\n"
+"POT-Creation-Date: 2018-04-06 11:10+0200\n"
+"PO-Revision-Date: 2018-04-06 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: Nicolas Mollet <nico.mollet@gmail.com>\n"
 "Language: fr\n"
@@ -25,105 +25,110 @@ msgstr "Modifier vos réglages Mailjet"
 msgid "Mailjet"
 msgstr "Mailjet"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:262
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:178
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:179
+msgid "Pricing & Discounts"
+msgstr "Promotions"
+
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:282
 msgid "M j, Y"
 msgstr "j M Y"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:275
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:276
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:295
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:296
 msgid "Customers"
 msgstr "Clients"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:309
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:310
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:329
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:330
 msgid "Export Orders"
 msgstr "Exporter Commandes"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:327
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:347
 msgid "Registered"
 msgstr "Inscription"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:356
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:376
 msgid "Y/m/d"
 msgstr "Y/m/d"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:358
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:378
 msgid "Y/m/d g:i:s a"
 msgstr "Y/m/d H:i:s"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:393
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:413
 msgid "Orders"
 msgstr "Commandes"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:482
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:502
 msgid "Cache"
 msgstr "Cache"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:494
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:532
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:514
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:552
 msgctxt "Order status"
 msgid "Paid"
 msgstr "Payée"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:497
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:534
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:558
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:517
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:554
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:578
 msgctxt "Order status"
 msgid "Shipped"
 msgstr "Expédiée"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:498
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:535
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:563
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:518
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:555
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:583
 msgctxt "Order status"
 msgid "Processed"
 msgstr "Terminée"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:532
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:552
 msgctxt "Order status"
 msgid "Processing"
 msgstr "En cours"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:534
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:554
 msgctxt "Order status"
 msgid "Completed"
 msgstr "Terminé"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:570
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:590
 msgid "Change status: "
 msgstr "Changer de statut&nbsp;:"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:586
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:606
 msgid "Mark paid"
 msgstr "Marquer payée"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:590
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:610
 msgid "Mark shipped"
 msgstr "Marquer expédiée"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:591
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:621
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:611
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:641
 msgid "Mark as processed"
 msgstr "Terminer"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:610
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:630
 msgctxt "Change order status"
 msgid "Ship"
 msgstr "Expédier"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:643
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:663
 msgid "Status changed to Processed"
 msgstr "Statut changé vers Terminée"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:726
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:746
 msgid "Checkout fields"
 msgstr "Champs de commande"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:727
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:747
 msgid "Title field"
 msgstr "Champ civilité"
 
-#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:735
+#: ../admin/class-tmsm-woocommerce-customadmin-admin.php:755
 msgid "Birthday field"
 msgstr "Champ anniversaire"
 
@@ -135,49 +140,49 @@ msgstr "Gestionnaire commandes"
 msgid "Processed"
 msgstr "Terminée"
 
-#: ../public/class-tmsm-woocommerce-customadmin-public.php:89
+#: ../public/class-tmsm-woocommerce-customadmin-public.php:112
 msgctxt "birthday date format"
 msgid "mm/dd/yyyy"
-msgstr "dd/mm/aaaa"
+msgstr "jj/mm/aaaa"
 
-#: ../public/class-tmsm-woocommerce-customadmin-public.php:138
-#: ../public/class-tmsm-woocommerce-customadmin-public.php:279
+#: ../public/class-tmsm-woocommerce-customadmin-public.php:162
+#: ../public/class-tmsm-woocommerce-customadmin-public.php:310
 msgctxt "birthday date format conversion"
 msgid "Y-m-d"
 msgstr "Y-m-d"
 
-#: ../public/class-tmsm-woocommerce-customadmin-public.php:141
+#: ../public/class-tmsm-woocommerce-customadmin-public.php:165
 msgctxt "birthday date format"
 msgid "m/d/Y"
 msgstr "d/m/Y"
 
-#: ../public/class-tmsm-woocommerce-customadmin-public.php:158
+#: ../public/class-tmsm-woocommerce-customadmin-public.php:182
 msgctxt "honorific title"
 msgid "Ms"
 msgstr "Mme"
 
-#: ../public/class-tmsm-woocommerce-customadmin-public.php:159
+#: ../public/class-tmsm-woocommerce-customadmin-public.php:183
 msgctxt "honorific title"
 msgid "Mr"
 msgstr "M."
 
-#: ../public/class-tmsm-woocommerce-customadmin-public.php:176
+#: ../public/class-tmsm-woocommerce-customadmin-public.php:201
 msgctxt "honorific title label"
 msgid "Title"
 msgstr "Civilité"
 
-#: ../public/class-tmsm-woocommerce-customadmin-public.php:201
+#: ../public/class-tmsm-woocommerce-customadmin-public.php:227
 msgctxt "birthday label"
 msgid "Birthday"
 msgstr "Anniversaire"
 
-#: ../public/class-tmsm-woocommerce-customadmin-public.php:203
+#: ../public/class-tmsm-woocommerce-customadmin-public.php:229
 msgctxt "birthday placeholder"
 msgid "mm/dd/yyyy"
 msgstr "jj/mm/aaaa"
 
-#: ../public/class-tmsm-woocommerce-customadmin-public.php:241
-#: ../public/class-tmsm-woocommerce-customadmin-public.php:298
+#: ../public/class-tmsm-woocommerce-customadmin-public.php:269
+#: ../public/class-tmsm-woocommerce-customadmin-public.php:331
 msgctxt "birthday date format conversion"
 msgid "m/d/Y"
 msgstr "d/m/Y"
