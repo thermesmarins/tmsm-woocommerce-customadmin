@@ -1,4 +1,6 @@
 ### Unreleased ###
+
+### 1.1.5: April 10th, 2018
 * Plugin icon asset (TMSM logo)
 * Pricing & Discounts: Move admin menu to submenu of Products
 
